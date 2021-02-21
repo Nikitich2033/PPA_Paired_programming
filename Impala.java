@@ -1,42 +1,34 @@
 import java.util.List;
 import java.util.Random;
 
-/**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
- * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
- */
-public class Rabbit extends Animal
-{
-    // Characteristics shared by all rabbits (class variables).
+public class Impala extends Animal{
+    // Characteristics shared by all Impalas (class variables).
 
-    // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 5;
-    // The age to which a rabbit can live.
-    private static final int MAX_AGE = 40;
-    // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
+    // The age at which a Impala can start to breed.
+    private static final int BREEDING_AGE = 10;
+    // The age to which a Impala can live.
+    private static final int MAX_AGE = 90;
+    // The likelihood of a Impala breeding.
+    private static final double BREEDING_PROBABILITY = 0.18;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
+    private static final int MAX_LITTER_SIZE = 2;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
-    
+
     // Individual characteristics (instance fields).
-    
-    // The rabbit's age.
+
+    // The Impala's age.
     private int age;
 
     /**
-     * Create a new rabbit. A rabbit may be created with age
+     * Create a new impala. A Impala may be created with age
      * zero (a new born) or with a random age.
-     * 
-     * @param randomAge If true, the rabbit will have a random age.
+     *
+     * @param randomAge If true, the impala will have a random age.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Rabbit(boolean randomAge, Field field, Location location)
+    public Impala(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         age = 0;
@@ -44,17 +36,17 @@ public class Rabbit extends Animal
             age = rand.nextInt(MAX_AGE);
         }
     }
-    
+
     /**
-     * This is what the rabbit does most of the time - it runs 
+     * This is what the Impala does most of the time - it runs
      * around. Sometimes it will breed or die of old age.
-     * @param newRabbits A list to return newly born rabbits.
+     * @param newImpalas A list to return newly born Impalas.
      */
-    public void act(List<Animal> newRabbits)
+    public void act(List<Animal> newImpalas)
     {
         incrementAge();
         if(isAlive()) {
-            giveBirth(newRabbits);            
+            giveBirth(newImpalas);
             // Try to move into a free location.
             Location newLocation = getField().freeAdjacentLocation(getLocation());
             if(newLocation != null) {
@@ -69,7 +61,7 @@ public class Rabbit extends Animal
 
     /**
      * Increase the age.
-     * This could result in the rabbit's death.
+     * This could result in the Impala's death.
      */
     private void incrementAge()
     {
@@ -78,26 +70,26 @@ public class Rabbit extends Animal
             setDead();
         }
     }
-    
+
     /**
-     * Check whether or not this rabbit is to give birth at this step.
+     * Check whether or not this Impala is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newRabbits A list to return newly born rabbits.
+     * @param newImpalas A list to return newly born Impalas.
      */
-    private void giveBirth(List<Animal> newRabbits)
+    private void giveBirth(List<Animal> newImpalas)
     {
-        // New rabbits are born into adjacent locations.
+        // New Impalas are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc);
-            newRabbits.add(young);
+            Impala young = new Impala(false, field, loc);
+            newImpalas.add(young);
         }
     }
-        
+
     /**
      * Generate a number representing the number of births,
      * if it can breed.
@@ -113,8 +105,8 @@ public class Rabbit extends Animal
     }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
-     * @return true if the rabbit can breed, false otherwise.
+     * A Impala can breed if it has reached the breeding age.
+     * @return true if the Impala can breed, false otherwise.
      */
     private boolean canBreed()
     {

@@ -19,10 +19,15 @@ public class Simulator
     private static final int DEFAULT_WIDTH = 120;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
-    // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
-    // The probability that a rabbit will be created in any given grid position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
+    //
+    private static final double LEOPARD_CREATION_PROBABILITY = 0.02;
+    private static final double CHEETAH_CREATION_PROBABILITY = 0.04;
+
+    private static final double MEERKAT_CREATION_PROBABILITY = 0.09;
+    private static final double IMPALA_CREATION_PROBABILITY = 0.08;
+    private static final double RHINO_CREATION_PROBABILITY = 0.06;
+
+    private static final double GRASS_CREATION_PROBABILITY = 0.20;
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -60,8 +65,13 @@ public class Simulator
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
-        view.setColor(Rabbit.class, Color.ORANGE);
-        view.setColor(Fox.class, Color.BLUE);
+
+      //  view.setColor(Fox.class, Color.BLUE);
+        view.setColor(Cheetah.class,Color.red);
+        view.setColor(Leopard.class,Color.YELLOW);
+        view.setColor(Meerkat.class,Color.BLUE);
+        view.setColor(Impala.class,Color.MAGENTA);
+        view.setColor(Rhino.class,Color.ORANGE);
         
         // Setup a valid starting point.
         reset();
@@ -137,15 +147,30 @@ public class Simulator
         field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= LEOPARD_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, field, location);
-                    animals.add(fox);
+                    Leopard leopard = new Leopard(true, field, location);
+                    animals.add(leopard);
                 }
-                else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                else if(rand.nextDouble() <= CHEETAH_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, field, location);
-                    animals.add(rabbit);
+                    Cheetah cheetah = new Cheetah(true, field, location);
+                    animals.add(cheetah);
+                }
+                else if(rand.nextDouble() <= MEERKAT_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Meerkat meerkat = new Meerkat(true, field, location);
+                    animals.add(meerkat);
+                }
+                else if(rand.nextDouble() <= IMPALA_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Impala impala = new Impala(true, field, location);
+                    animals.add(impala);
+                }
+                else if(rand.nextDouble() <= RHINO_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Rhino rhino = new Rhino(true, field, location);
+                    animals.add(rhino);
                 }
                 // else leave the location empty.
             }
