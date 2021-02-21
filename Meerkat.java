@@ -1,18 +1,18 @@
 import java.util.List;
 import java.util.Random;
 
-public class Meerkat extends Animal{
+public class Meerkat extends Organism {
     // Characteristics shared by all Meerkats
     // (class variables).
 
     // The age at which a Meerkat can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a Meerkat can live.
-    private static final int MAX_AGE = 70;
+    private static final int MAX_AGE = 40;
     // The likelihood of a Meerkat breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.12;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 3;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -45,7 +45,7 @@ public class Meerkat extends Animal{
      * A list to return newly born Meerkats
      * .
      */
-    public void act(List<Animal> newMeerkats
+    public void act(List<Organism> newMeerkats
     )
     {
         incrementAge();
@@ -83,7 +83,7 @@ public class Meerkat extends Animal{
      * A list to return newly born Meerkats
      * .
      */
-    private void giveBirth(List<Animal> newMeerkats
+    private void giveBirth(List<Organism> newMeerkats
     )
     {
         // New Meerkats

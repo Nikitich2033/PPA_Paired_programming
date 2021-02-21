@@ -1,15 +1,15 @@
 import java.util.List;
 import java.util.Random;
 
-public class Rhino extends Animal{
+public class Rhino extends Organism {
     // Characteristics shared by all Rhinos (class variables).
 
     // The age at which a Rhino can start to breed.
     private static final int BREEDING_AGE = 20;
     // The age to which a Rhino can live.
-    private static final int MAX_AGE = 110;
+    private static final int MAX_AGE = 80;
     // The likelihood of a Rhino breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
+    private static final double BREEDING_PROBABILITY = 0.09;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // A shared random number generator to control breeding.
@@ -42,7 +42,7 @@ public class Rhino extends Animal{
      * around. Sometimes it will breed or die of old age.
      * @param newRhinos A list to return newly born Rhinos.
      */
-    public void act(List<Animal> newRhinos)
+    public void act(List<Organism> newRhinos)
     {
         incrementAge();
         if(isAlive()) {
@@ -76,7 +76,7 @@ public class Rhino extends Animal{
      * New births will be made into free adjacent locations.
      * @param newRhinos A list to return newly born Rhinos.
      */
-    private void giveBirth(List<Animal> newRhinos)
+    private void giveBirth(List<Organism> newRhinos)
     {
         // New Rhinos are born into adjacent locations.
         // Get a list of adjacent free locations.

@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Cheetah extends Animal{
+public class Cheetah extends Organism {
     // Characteristics shared by all Cheetaes (class variables).
 
     // The age at which a Cheeta can start to breed.
@@ -10,12 +10,12 @@ public class Cheetah extends Animal{
     // The age to which a Cheeta can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a Cheeta breeding.
-    private static final double BREEDING_PROBABILITY = 0.05;
+    private static final double BREEDING_PROBABILITY = 0.06;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a Cheeta can go before it has to eat again.
-    private static final int MEERKAT_FOOD_VALUE = 9;
+    private static final int MEERKAT_FOOD_VALUE = 16;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -53,7 +53,7 @@ public class Cheetah extends Animal{
      * //@param field The field currently occupied.
      * @param newCheetahs A list to return newly born Cheetahs.
      */
-    public void act(List<Animal> newCheetahs)
+    public void act(List<Organism> newCheetahs)
     {
         incrementAge();
         incrementHunger();
@@ -119,6 +119,22 @@ public class Cheetah extends Animal{
                     return where;
                 }
             }
+            else if(animal instanceof Impala) {
+                Impala impala = (Impala) animal;
+                if(impala.isAlive()) {
+                    impala.setDead();
+                    foodLevel = MEERKAT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(animal instanceof Rhino) {
+                Rhino rhino = (Rhino) animal;
+                if(rhino.isAlive()) {
+                    rhino.setDead();
+                    foodLevel = MEERKAT_FOOD_VALUE;
+                    return where;
+                }
+            }
         }
         return null;
     }
@@ -128,7 +144,7 @@ public class Cheetah extends Animal{
      * New births will be made into free adjacent locations.
      * @param newCheetahs A list to return newly born Cheetahs.
      */
-    private void giveBirth(List<Animal> newCheetahs)
+    private void giveBirth(List<Organism> newCheetahs)
     {
         // New Cheetaes are born into adjacent locations.
         // Get a list of adjacent free locations.

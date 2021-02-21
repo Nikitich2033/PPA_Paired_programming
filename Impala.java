@@ -1,17 +1,17 @@
 import java.util.List;
 import java.util.Random;
 
-public class Impala extends Animal{
+public class Impala extends Organism {
     // Characteristics shared by all Impalas (class variables).
 
     // The age at which a Impala can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a Impala can live.
-    private static final int MAX_AGE = 90;
+    private static final int MAX_AGE = 70;
     // The likelihood of a Impala breeding.
-    private static final double BREEDING_PROBABILITY = 0.18;
+    private static final double BREEDING_PROBABILITY = 0.14;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
+    private static final int MAX_LITTER_SIZE = 1;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -42,7 +42,7 @@ public class Impala extends Animal{
      * around. Sometimes it will breed or die of old age.
      * @param newImpalas A list to return newly born Impalas.
      */
-    public void act(List<Animal> newImpalas)
+    public void act(List<Organism> newImpalas)
     {
         incrementAge();
         if(isAlive()) {
@@ -76,7 +76,7 @@ public class Impala extends Animal{
      * New births will be made into free adjacent locations.
      * @param newImpalas A list to return newly born Impalas.
      */
-    private void giveBirth(List<Animal> newImpalas)
+    private void giveBirth(List<Organism> newImpalas)
     {
         // New Impalas are born into adjacent locations.
         // Get a list of adjacent free locations.

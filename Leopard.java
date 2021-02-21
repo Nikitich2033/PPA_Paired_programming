@@ -2,20 +2,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Leopard extends Animal {
+public class Leopard extends Organism {
     // Characteristics shared by all Leopards (class variables).
 
     // The age at which a Leopard can start to breed.
-    private static final int BREEDING_AGE = 12;
+    private static final int BREEDING_AGE = 10;
     // The age to which a Leopard can live.
     private static final int MAX_AGE = 120;
     // The likelihood of a Leopard breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+    private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 12;
+    private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a Leopard can go before it has to eat again.
-    private static final int MEERKAT_FOOD_VALUE = 9;
+    private static final int MEERKAT_FOOD_VALUE = 11;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -53,7 +53,7 @@ public class Leopard extends Animal {
      * //@param field The field currently occupied.
      * @param newLeopards A list to return newly born Leopards.
      */
-    public void act(List<Animal> newLeopards)
+    public void act(List<Organism> newLeopards)
     {
         incrementAge();
         incrementHunger();
@@ -119,6 +119,22 @@ public class Leopard extends Animal {
                     return where;
                 }
             }
+            else if(animal instanceof Impala) {
+                Impala impala = (Impala) animal;
+                if(impala.isAlive()) {
+                    impala.setDead();
+                    foodLevel = MEERKAT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(animal instanceof Rhino) {
+                Rhino rhino = (Rhino) animal;
+                if(rhino.isAlive()) {
+                    rhino.setDead();
+                    foodLevel = MEERKAT_FOOD_VALUE;
+                    return where;
+                }
+            }
         }
         return null;
     }
@@ -128,7 +144,7 @@ public class Leopard extends Animal {
      * New births will be made into free adjacent locations.
      * @param newLeopards A list to return newly born Leopards.
      */
-    private void giveBirth(List<Animal> newLeopards)
+    private void giveBirth(List<Organism> newLeopards)
     {
         // New Leopards are born into adjacent locations.
         // Get a list of adjacent free locations.
