@@ -20,6 +20,7 @@ public class Impala extends Organism {
     // The Impala's age.
     private int age;
 
+    private Boolean gender;
     /**
      * Create a new impala. A Impala may be created with age
      * zero (a new born) or with a random age.
@@ -35,6 +36,9 @@ public class Impala extends Organism {
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+
+        gender = rand.nextBoolean();
+
     }
 
     /**
@@ -81,13 +85,25 @@ public class Impala extends Organism {
         // New Impalas are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
+
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Impala young = new Impala(false, field, loc);
-            newImpalas.add(young);
+        List<Location> full = field.getFullAdjacentLocations(getLocation());
+
+        for (Location location: full) {
+            if ( field.getObjectAt(location) instanceof Impala
+                    && ((Impala) field.getObjectAt(location)).gender != gender){
+
+                int births = breed();
+
+                for(int b = 0; b < births && free.size() > 0; b++) {
+                    Location loc = free.remove(0);
+                    Impala young = new Impala(false, field, loc);
+                    newImpalas.add(young);
+                }
+                break;
+            }
         }
+
     }
 
     /**

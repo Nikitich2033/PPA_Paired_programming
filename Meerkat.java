@@ -10,7 +10,7 @@ public class Meerkat extends Organism {
     // The age to which a Meerkat can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a Meerkat breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
+    private static final double BREEDING_PROBABILITY = 0.10;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // A shared random number generator to control breeding.
@@ -21,6 +21,7 @@ public class Meerkat extends Organism {
     // The rabbit's age.
     private int age;
 
+    private Boolean gender;
     /**
      * Create a new rabbit. A Meerkat may be created with age
      * zero (a new born) or with a random age.
@@ -36,6 +37,8 @@ public class Meerkat extends Organism {
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+
+        gender = rand.nextBoolean();
     }
 
     /**
@@ -89,7 +92,7 @@ public class Meerkat extends Organism {
         // New Meerkats
         // are born into adjacent locations.
         // Get a list of adjacent free locations.
-        Field field = getField();
+        /* Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
@@ -97,7 +100,37 @@ public class Meerkat extends Organism {
             Meerkat young = new Meerkat(false, field, loc);
             newMeerkats
                     .add(young);
+        }*/
+
+        Field field = getField();
+
+        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> full = field.getFullAdjacentLocations(getLocation());
+
+        /* Field field = getField();
+        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        int births = breed();
+        for(int b = 0; b < births && free.size() > 0; b++) {
+            Location loc = free.remove(0);
+            Cheetah young = new Cheetah(false, field, loc);
+            newCheetahs.add(young);
+        }*/
+
+        for (Location location: full) {
+            if ( field.getObjectAt(location) instanceof Meerkat
+                    && ((Meerkat) field.getObjectAt(location)).gender != gender){
+
+                int births = breed();
+
+                for(int b = 0; b < births && free.size() > 0; b++) {
+                    Location loc = free.remove(0);
+                    Meerkat young = new Meerkat(false, field, loc);
+                    newMeerkats.add(young);
+                }
+                break;
+            }
         }
+
     }
 
     /**

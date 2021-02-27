@@ -10,12 +10,12 @@ public class Cheetah extends Organism {
     // The age to which a Cheeta can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a Cheeta breeding.
-    private static final double BREEDING_PROBABILITY = 0.06;
+    private static final double BREEDING_PROBABILITY = 0.05;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a Cheeta can go before it has to eat again.
-    private static final int MEERKAT_FOOD_VALUE = 16;
+    private static final int FOOD_VALUE = 16;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -25,6 +25,7 @@ public class Cheetah extends Organism {
     // The Cheeta's food level, which is increased by eating rabbits.
     private int foodLevel;
 
+    private Boolean gender;
     /**
      * Create a Cheeta. A Cheeta can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -38,12 +39,14 @@ public class Cheetah extends Organism {
         super(field, location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(MEERKAT_FOOD_VALUE);
+            foodLevel = rand.nextInt(FOOD_VALUE);
         }
         else {
             age = 0;
-            foodLevel = MEERKAT_FOOD_VALUE;
+            foodLevel = FOOD_VALUE;
         }
+
+        gender = rand.nextBoolean();
     }
 
     /**
@@ -111,11 +114,12 @@ public class Cheetah extends Organism {
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
+            
             if(animal instanceof Meerkat) {
                 Meerkat meerkat = (Meerkat) animal;
                 if(meerkat.isAlive()) {
                     meerkat.setDead();
-                    foodLevel = MEERKAT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -123,7 +127,7 @@ public class Cheetah extends Organism {
                 Impala impala = (Impala) animal;
                 if(impala.isAlive()) {
                     impala.setDead();
-                    foodLevel = MEERKAT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -131,7 +135,7 @@ public class Cheetah extends Organism {
                 Rhino rhino = (Rhino) animal;
                 if(rhino.isAlive()) {
                     rhino.setDead();
-                    foodLevel = MEERKAT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -148,13 +152,33 @@ public class Cheetah extends Organism {
     {
         // New Cheetaes are born into adjacent locations.
         // Get a list of adjacent free locations.
-        Field field = getField();
+       /* Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Cheetah young = new Cheetah(false, field, loc);
             newCheetahs.add(young);
+        }*/
+
+        Field field = getField();
+
+        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        List<Location> full = field.getFullAdjacentLocations(getLocation());
+
+        for (Location location: full) {
+            if ( field.getObjectAt(location) instanceof Cheetah
+                    && ((Cheetah) field.getObjectAt(location)).gender != gender){
+
+                int births = breed();
+
+                for(int b = 0; b < births && free.size() > 0; b++) {
+                    Location loc = free.remove(0);
+                    Cheetah young = new Cheetah(false, field, loc);
+                    newCheetahs.add(young);
+                }
+                break;
+            }
         }
     }
 
@@ -179,4 +203,5 @@ public class Cheetah extends Organism {
     {
         return age >= BREEDING_AGE;
     }
+
 }

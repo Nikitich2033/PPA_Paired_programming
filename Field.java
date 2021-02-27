@@ -130,6 +130,18 @@ public class Field
         }
         return free;
     }
+
+    public List<Location> getFullAdjacentLocations(Location location){
+
+        List<Location> full = new LinkedList<>();
+        List<Location> adjacent = adjacentLocations(location);
+        for(Location next : adjacent) {
+            if(getObjectAt(next) != null) {
+                full.add(next);
+            }
+        }
+        return full;
+    }
     
     /**
      * Try to find a free location that is adjacent to the

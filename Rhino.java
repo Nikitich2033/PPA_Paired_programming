@@ -20,6 +20,8 @@ public class Rhino extends Organism {
     // The Rhino's age.
     private int age;
 
+    private Boolean gender;
+
     /**
      * Create a new Rhino. A Rhino may be created with age
      * zero (a new born) or with a random age.
@@ -35,6 +37,8 @@ public class Rhino extends Organism {
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+
+        gender = rand.nextBoolean();
     }
 
     /**
@@ -81,13 +85,25 @@ public class Rhino extends Organism {
         // New Rhinos are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
+
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Rhino young = new Rhino(false, field, loc);
-            newRhinos.add(young);
+        List<Location> full = field.getFullAdjacentLocations(getLocation());
+
+        for (Location location: full) {
+            if ( field.getObjectAt(location) instanceof Rhino
+                    && ((Rhino) field.getObjectAt(location)).gender != gender){
+
+                int births = breed();
+
+                for(int b = 0; b < births && free.size() > 0; b++) {
+                    Location loc = free.remove(0);
+                    Rhino young = new Rhino(false, field, loc);
+                    newRhinos.add(young);
+                }
+                break;
+            }
         }
+
     }
 
     /**

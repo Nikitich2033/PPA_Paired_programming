@@ -6,24 +6,27 @@ public class Leopard extends Organism {
     // Characteristics shared by all Leopards (class variables).
 
     // The age at which a Leopard can start to breed.
-    private static final int BREEDING_AGE = 10;
+    private static final int BREEDING_AGE = 12;
     // The age to which a Leopard can live.
     private static final int MAX_AGE = 120;
     // The likelihood of a Leopard breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.08;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single rabbit. In effect, this is the
+    private static final int MAX_LITTER_SIZE = 3;
+    // The food value of a single animal. In effect, this is the
     // number of steps a Leopard can go before it has to eat again.
-    private static final int MEERKAT_FOOD_VALUE = 11;
+    private static final int FOOD_VALUE = 11;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
     // Individual characteristics (instance fields).
     // The Leopard's age.
     private int age;
-    // The Leopard's food level, which is increased by eating rabbits.
+    // The Leopard's food level, which is increased by eating animals.
     private int foodLevel;
+
+    //Gender: False is Male, True is Female
+    private Boolean gender;
 
     /**
      * Create a Leopard. A Leopard can be created as a new born (age zero
@@ -33,17 +36,20 @@ public class Leopard extends Organism {
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Leopard(boolean randomAge, Field field, Location location)
+    public Leopard(boolean randomAge,Field field, Location location)
     {
         super(field, location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(MEERKAT_FOOD_VALUE);
+            foodLevel = rand.nextInt(FOOD_VALUE);
         }
         else {
             age = 0;
-            foodLevel = MEERKAT_FOOD_VALUE;
+            foodLevel = FOOD_VALUE;
         }
+
+        gender = rand.nextBoolean();
+
     }
 
     /**
@@ -115,7 +121,7 @@ public class Leopard extends Organism {
                Meerkat meerkat = (Meerkat) animal;
                 if(meerkat.isAlive()) {
                     meerkat.setDead();
-                    foodLevel = MEERKAT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -123,7 +129,7 @@ public class Leopard extends Organism {
                 Impala impala = (Impala) animal;
                 if(impala.isAlive()) {
                     impala.setDead();
-                    foodLevel = MEERKAT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -131,7 +137,7 @@ public class Leopard extends Organism {
                 Rhino rhino = (Rhino) animal;
                 if(rhino.isAlive()) {
                     rhino.setDead();
-                    foodLevel = MEERKAT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -149,13 +155,25 @@ public class Leopard extends Organism {
         // New Leopards are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
+
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Leopard young = new Leopard(false, field, loc);
-            newLeopards.add(young);
+        List<Location> full = field.getFullAdjacentLocations(getLocation());
+
+        for (Location location: full) {
+            if ( field.getObjectAt(location) instanceof Leopard
+                    && ((Leopard) field.getObjectAt(location)).gender != gender){
+
+                int births = breed();
+
+                for(int b = 0; b < births && free.size() > 0; b++) {
+                    Location loc = free.remove(0);
+                    Leopard young = new Leopard(false, field, loc);
+                    newLeopards.add(young);
+                }
+                break;
+            }
         }
+
     }
 
     /**
