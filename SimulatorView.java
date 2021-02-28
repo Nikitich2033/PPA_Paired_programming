@@ -49,7 +49,7 @@ public class SimulatorView extends JFrame
         timeOfDayLabel = new JLabel(TIMEOFDAY_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
 
-        //needed to 
+        //This FlowLayout is needed to list Steps and Time of day on the same line.
         JPanel topTextRow = new JPanel();
         topTextRow.setLayout(new FlowLayout());
         topTextRow.add(stepLabel);

@@ -10,7 +10,7 @@ public class Meerkat extends Organism {
     // The age to which a Meerkat can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a Meerkat breeding.
-    private static final double BREEDING_PROBABILITY = 0.10;
+    private static final double BREEDING_PROBABILITY = 0.08;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // A shared random number generator to control breeding.
@@ -48,22 +48,25 @@ public class Meerkat extends Organism {
      * A list to return newly born Meerkats
      * .
      */
-    public void act(List<Organism> newMeerkats
-    )
+    public void act(List<Organism> newMeerkats, String timeOfDayString)
     {
         incrementAge();
         if(isAlive()) {
-            giveBirth(newMeerkats
-            );
-            // Try to move into a free location.
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
-            if(newLocation != null) {
-                setLocation(newLocation);
+            giveBirth(newMeerkats);
+
+            if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
+
+                // Try to move into a free location.
+                Location newLocation = getField().freeAdjacentLocation(getLocation());
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+
         }
     }
 

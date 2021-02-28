@@ -59,26 +59,37 @@ public class Leopard extends Organism {
      * //@param field The field currently occupied.
      * @param newLeopards A list to return newly born Leopards.
      */
-    public void act(List<Organism> newLeopards)
+    public void act(List<Organism> newLeopards, String timeOfDayString)
     {
+
         incrementAge();
         incrementHunger();
+
         if(isAlive()) {
+
             giveBirth(newLeopards);
-            // Move towards a source of food if found.
-            Location newLocation = findFood();
-            if(newLocation == null) {
-                // No food found - try to move to a free location.
-                newLocation = getField().freeAdjacentLocation(getLocation());
+
+            if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
+
+                // Move towards a source of food if found.
+                Location newLocation = findFood();
+                if(newLocation == null) {
+                    // No food found - try to move to a free location.
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                // See if it was possible to move.
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
-            // See if it was possible to move.
-            if(newLocation != null) {
-                setLocation(newLocation);
+            else{
+
             }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+
         }
     }
 

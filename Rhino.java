@@ -46,20 +46,28 @@ public class Rhino extends Organism {
      * around. Sometimes it will breed or die of old age.
      * @param newRhinos A list to return newly born Rhinos.
      */
-    public void act(List<Organism> newRhinos)
+    public void act(List<Organism> newRhinos, String timeOfDayString)
     {
         incrementAge();
+
+
         if(isAlive()) {
             giveBirth(newRhinos);
-            // Try to move into a free location.
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
-            if(newLocation != null) {
-                setLocation(newLocation);
+
+            if (timeOfDayString.equals("Morning") || timeOfDayString.equals("Day")){
+
+                // Try to move into a free location.
+                Location newLocation = getField().freeAdjacentLocation(getLocation());
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
+
             }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+
         }
     }
 

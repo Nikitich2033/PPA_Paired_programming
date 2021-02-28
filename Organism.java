@@ -14,14 +14,14 @@ public abstract class Organism
     private Field field;
     // The organism's position in the field.
     private Location location;
-    
+
     /**
      * Create a new organism at location in field.
      * 
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Organism(Field field, Location location)
+    public Organism(Field field,Location location)
     {
         alive = true;
         this.field = field;
@@ -33,7 +33,7 @@ public abstract class Organism
      * whatever it wants/needs to do.
      * @param newOrganisms A list to receive newly born organisms.
      */
-    abstract public void act(List<Organism> newOrganisms);
+    abstract public void act(List<Organism> newOrganisms, String timeOfDayString);
 
     /**
      * Check whether the organism is alive or not.
@@ -43,6 +43,7 @@ public abstract class Organism
     {
         return alive;
     }
+
 
     /**
      * Indicate that the organism is no longer alive.

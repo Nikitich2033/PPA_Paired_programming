@@ -46,20 +46,25 @@ public class Impala extends Organism {
      * around. Sometimes it will breed or die of old age.
      * @param newImpalas A list to return newly born Impalas.
      */
-    public void act(List<Organism> newImpalas)
+    public void act(List<Organism> newImpalas, String timeOfDayString)
     {
         incrementAge();
         if(isAlive()) {
             giveBirth(newImpalas);
-            // Try to move into a free location.
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
-            if(newLocation != null) {
-                setLocation(newLocation);
+
+            if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
+
+                // Try to move into a free location.
+                Location newLocation = getField().freeAdjacentLocation(getLocation());
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+
         }
     }
 

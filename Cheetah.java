@@ -56,26 +56,30 @@ public class Cheetah extends Organism {
      * //@param field The field currently occupied.
      * @param newCheetahs A list to return newly born Cheetahs.
      */
-    public void act(List<Organism> newCheetahs)
+    public void act(List<Organism> newCheetahs, String timeOfDayString)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
+
             giveBirth(newCheetahs);
             // Move towards a source of food if found.
-            Location newLocation = findFood();
-            if(newLocation == null) {
-                // No food found - try to move to a free location.
-                newLocation = getField().freeAdjacentLocation(getLocation());
+            if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
+                Location newLocation = findFood();
+                if(newLocation == null) {
+                    // No food found - try to move to a free location.
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                // See if it was possible to move.
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
-            // See if it was possible to move.
-            if(newLocation != null) {
-                setLocation(newLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+
         }
     }
 

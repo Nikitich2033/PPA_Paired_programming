@@ -20,12 +20,12 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     //
-    private static final double LEOPARD_CREATION_PROBABILITY = 0.02;
+    private static final double LEOPARD_CREATION_PROBABILITY = 0.03;
     private static final double CHEETAH_CREATION_PROBABILITY = 0.02;
 
     private static final double MEERKAT_CREATION_PROBABILITY = 0.07;
-    private static final double IMPALA_CREATION_PROBABILITY = 0.11;
-    private static final double RHINO_CREATION_PROBABILITY = 0.03;
+    private static final double IMPALA_CREATION_PROBABILITY = 0.06;
+    private static final double RHINO_CREATION_PROBABILITY = 0.04;
 
     private static final double GRASS_CREATION_PROBABILITY = 0.20;
 
@@ -99,7 +99,7 @@ public class Simulator
     {
         for(int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
-            // delay(60);   // uncomment this to run more slowly
+            delay(60);   // uncomment this to run more slowly
         }
     }
     
@@ -119,7 +119,7 @@ public class Simulator
         // Let all rabbits act.
         for(Iterator<Organism> it = organisms.iterator(); it.hasNext(); ) {
             Organism organism = it.next();
-            organism.act(newOrganisms);
+            organism.act(newOrganisms, timeOfDay.getTimeOfDay());
             if(! organism.isAlive()) {
                 it.remove();
             }
@@ -130,6 +130,7 @@ public class Simulator
 
         view.showStatus(step,timeOfDay,field);
     }
+
         
     /**
      * Reset the simulation to a starting position.
