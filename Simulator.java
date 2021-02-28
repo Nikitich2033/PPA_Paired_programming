@@ -35,9 +35,11 @@ public class Simulator
     private Field field;
     // The current step of the simulation.
     private int step;
+    // The current time of day
+    private Time timeOfDay;
     // A graphical view of the simulation.
     private SimulatorView view;
-    
+
     /**
      * Construct a simulation field with default size.
      */
@@ -62,6 +64,8 @@ public class Simulator
         
         organisms = new ArrayList<>();
         field = new Field(depth, width);
+
+        timeOfDay = new Time();
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -108,6 +112,8 @@ public class Simulator
     {
         step++;
 
+        if (step % 3 == 0 ){timeOfDay.incrementTimeOfDay();}
+
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
         // Let all rabbits act.
@@ -122,7 +128,7 @@ public class Simulator
         // Add the newly born foxes and rabbits to the main lists.
         organisms.addAll(newOrganisms);
 
-        view.showStatus(step, field);
+        view.showStatus(step,timeOfDay,field);
     }
         
     /**
@@ -131,11 +137,12 @@ public class Simulator
     public void reset()
     {
         step = 0;
+        timeOfDay.reset();
         organisms.clear();
         populate();
         
         // Show the starting state in the view.
-        view.showStatus(step, field);
+        view.showStatus(step,timeOfDay,field);
     }
     
     /**

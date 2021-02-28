@@ -24,7 +24,9 @@ public class SimulatorView extends JFrame
 
     private final String STEP_PREFIX = "Step: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, population;
+    private final String TIMEOFDAY_PREFIX = "Time of day: ";
+
+    private JLabel stepLabel, population,timeOfDayLabel;
     private FieldView fieldView;
     
     // A map for storing colors for participants in the simulation
@@ -44,14 +46,24 @@ public class SimulatorView extends JFrame
 
         setTitle("Fox and Rabbit Simulation");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
+        timeOfDayLabel = new JLabel(TIMEOFDAY_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
-        
+
+        //needed to 
+        JPanel topTextRow = new JPanel();
+        topTextRow.setLayout(new FlowLayout());
+        topTextRow.add(stepLabel);
+        topTextRow.add(timeOfDayLabel);
+
         setLocation(100, 50);
         
         fieldView = new FieldView(height, width);
 
         Container contents = getContentPane();
-        contents.add(stepLabel, BorderLayout.NORTH);
+        //contents.setLayout(new FlowLayout());
+        contents.add(topTextRow, BorderLayout.NORTH);
+        //contents.add(stepLabel, BorderLayout.NORTH);
+        //contents.add(timeOfDayLabel,BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
         pack();
@@ -88,13 +100,14 @@ public class SimulatorView extends JFrame
      * @param step Which iteration step it is.
      * @param field The field whose status is to be displayed.
      */
-    public void showStatus(int step, Field field)
+    public void showStatus(int step,Time timeOfDay, Field field)
     {
         if(!isVisible()) {
             setVisible(true);
         }
             
         stepLabel.setText(STEP_PREFIX + step);
+        timeOfDayLabel.setText(TIMEOFDAY_PREFIX + timeOfDay.getTimeOfDay());
         stats.reset();
         
         fieldView.preparePaint();

@@ -1,31 +1,42 @@
 
 /**
- * Write a description of class Time here.
+ * Time class stores the current time of day.
  *
- * @author (your name)
- * @version (a version number or a date)
  */
 public class Time
 {
-    // instance variables - replace the example below with your own
+    // instance
     private String[] statesOfTime = {"Morning", "Day", "Evening", "Night"};
-    private String timeOfDay;
+    private int timeOfDay;
+
     /**
      * Constructor for objects of class Time
      */
     public Time()
     {
-        timeOfDay = "Day";
+        timeOfDay = 0;
     }
 
     /**
      * Method to get the current timeOfDay;
      */
     public String getTimeOfDay() {
-        return timeOfDay;
+        return statesOfTime[timeOfDay];
     }
 
-    public void updateTimeOfDay(){
+    /**
+     * Method that switches time of day to the next state;
+     */
+    public void incrementTimeOfDay(){
+        if (timeOfDay < statesOfTime.length - 1){
+            timeOfDay++;
+        }
+        else if(timeOfDay == statesOfTime.length - 1){
+            timeOfDay = 0;
+        }
+    }
 
+    public void reset(){
+        timeOfDay = 0;
     }
 }

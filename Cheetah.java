@@ -114,7 +114,7 @@ public class Cheetah extends Organism {
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            
+
             if(animal instanceof Meerkat) {
                 Meerkat meerkat = (Meerkat) animal;
                 if(meerkat.isAlive()) {
