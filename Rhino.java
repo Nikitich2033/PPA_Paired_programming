@@ -46,12 +46,26 @@ public class Rhino extends Organism {
      * around. Sometimes it will breed or die of old age.
      * @param newRhinos A list to return newly born Rhinos.
      */
-    public void act(List<Organism> newRhinos, String timeOfDayString)
+    public void act(List<Organism> newRhinos, String timeOfDayString, Weather weather)
     {
         incrementAge();
 
 
         if(isAlive()) {
+
+            if (weather.getIsDrought() == true){
+                int randDieNum = rand.nextInt(100);
+                if (weather.getDaysSinceRain() <= 6){
+                    if (randDieNum <= 20) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
+                    if (randDieNum <= 40) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 10) {
+                    if (randDieNum <= 60) setDead();
+                }
+            }
+
             giveBirth(newRhinos);
 
             if (timeOfDayString.equals("Morning") || timeOfDayString.equals("Day")){

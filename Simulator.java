@@ -35,8 +35,11 @@ public class Simulator
     private Field field;
     // The current step of the simulation.
     private int step;
-    // The current time of day
+    // The current time of day of the simulation.
     private Time timeOfDay;
+    // The current weather of the simulation.
+    private Weather weather;
+
     // A graphical view of the simulation.
     private SimulatorView view;
 
@@ -66,6 +69,7 @@ public class Simulator
         field = new Field(depth, width);
 
         timeOfDay = new Time();
+        weather = new Weather();
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -99,7 +103,7 @@ public class Simulator
     {
         for(int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
-            delay(60);   // uncomment this to run more slowly
+            delay(20);   // uncomment this to run more slowly
         }
     }
     
@@ -112,14 +116,17 @@ public class Simulator
     {
         step++;
 
+        //Set a new time of day every 3 steps
         if (step % 3 == 0 ){timeOfDay.incrementTimeOfDay();}
+        //New weather every 12 steps/ new day
+        if (step % 12 == 0){weather.setRandomWeather();}
 
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
         // Let all rabbits act.
         for(Iterator<Organism> it = organisms.iterator(); it.hasNext(); ) {
             Organism organism = it.next();
-            organism.act(newOrganisms, timeOfDay.getTimeOfDay());
+            organism.act(newOrganisms, timeOfDay.getTimeOfDay(), weather);
             if(! organism.isAlive()) {
                 it.remove();
             }
@@ -128,7 +135,7 @@ public class Simulator
         // Add the newly born foxes and rabbits to the main lists.
         organisms.addAll(newOrganisms);
 
-        view.showStatus(step,timeOfDay,field);
+        view.showStatus(step,timeOfDay.getTimeOfDay(), weather.getCurrentWeather() ,field);
     }
 
         
@@ -139,11 +146,12 @@ public class Simulator
     {
         step = 0;
         timeOfDay.reset();
+        weather.reset();
         organisms.clear();
         populate();
         
         // Show the starting state in the view.
-        view.showStatus(step,timeOfDay,field);
+        view.showStatus(step,timeOfDay.getTimeOfDay(),weather.getCurrentWeather(),field);
     }
     
     /**

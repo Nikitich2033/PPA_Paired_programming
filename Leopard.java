@@ -59,13 +59,26 @@ public class Leopard extends Organism {
      * //@param field The field currently occupied.
      * @param newLeopards A list to return newly born Leopards.
      */
-    public void act(List<Organism> newLeopards, String timeOfDayString)
+    public void act(List<Organism> newLeopards, String timeOfDayString, Weather weather)
     {
 
         incrementAge();
         incrementHunger();
 
         if(isAlive()) {
+
+            if (weather.getIsDrought() == true){
+                int randDieNum = rand.nextInt(100);
+                if (weather.getDaysSinceRain() <= 6){
+                    if (randDieNum <= 20) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
+                    if (randDieNum <= 40) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 10) {
+                    if (randDieNum <= 60) setDead();
+                }
+            }
 
             giveBirth(newLeopards);
 

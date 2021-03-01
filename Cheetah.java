@@ -56,12 +56,25 @@ public class Cheetah extends Organism {
      * //@param field The field currently occupied.
      * @param newCheetahs A list to return newly born Cheetahs.
      */
-    public void act(List<Organism> newCheetahs, String timeOfDayString)
+    public void act(List<Organism> newCheetahs, String timeOfDayString, Weather weather)
     {
         incrementAge();
         incrementHunger();
-        if(isAlive()) {
 
+        if(isAlive()) {
+            //This IF statement represents a chance to die of dehydration in case of prolonged drought.
+            if (weather.getIsDrought() == true){
+                int randDieNum = rand.nextInt(100);
+                if (weather.getDaysSinceRain() <= 6){
+                    if (randDieNum <= 20) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
+                    if (randDieNum <= 40) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 10) {
+                    if (randDieNum <= 60) setDead();
+                }
+            }
             giveBirth(newCheetahs);
             // Move towards a source of food if found.
             if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
@@ -154,16 +167,8 @@ public class Cheetah extends Organism {
      */
     private void giveBirth(List<Organism> newCheetahs)
     {
-        // New Cheetaes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-       /* Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Cheetah young = new Cheetah(false, field, loc);
-            newCheetahs.add(young);
-        }*/
+        // New Cheetahs are born into adjacent locations.
+
 
         Field field = getField();
 

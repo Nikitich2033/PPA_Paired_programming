@@ -33,7 +33,7 @@ public abstract class Organism
      * whatever it wants/needs to do.
      * @param newOrganisms A list to receive newly born organisms.
      */
-    abstract public void act(List<Organism> newOrganisms, String timeOfDayString);
+    abstract public void act(List<Organism> newOrganisms, String timeOfDayString, Weather weather);
 
     /**
      * Check whether the organism is alive or not.

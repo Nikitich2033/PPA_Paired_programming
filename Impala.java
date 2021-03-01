@@ -46,10 +46,24 @@ public class Impala extends Organism {
      * around. Sometimes it will breed or die of old age.
      * @param newImpalas A list to return newly born Impalas.
      */
-    public void act(List<Organism> newImpalas, String timeOfDayString)
+    public void act(List<Organism> newImpalas, String timeOfDayString, Weather weather)
     {
         incrementAge();
         if(isAlive()) {
+
+            if (weather.getIsDrought() == true){
+                int randDieNum = rand.nextInt(100);
+                if (weather.getDaysSinceRain() <= 6){
+                    if (randDieNum <= 40) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
+                    if (randDieNum <= 60) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 10) {
+                    if (randDieNum <= 80) setDead();
+                }
+            }
+
             giveBirth(newImpalas);
 
             if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){

@@ -48,10 +48,24 @@ public class Meerkat extends Organism {
      * A list to return newly born Meerkats
      * .
      */
-    public void act(List<Organism> newMeerkats, String timeOfDayString)
+    public void act(List<Organism> newMeerkats, String timeOfDayString, Weather weather)
     {
         incrementAge();
         if(isAlive()) {
+
+            if (weather.getIsDrought() == true){
+                int randDieNum = rand.nextInt(100);
+                if (weather.getDaysSinceRain() <= 6){
+                    if (randDieNum <= 50) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
+                    if (randDieNum <= 65) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 10) {
+                    if (randDieNum <= 85) setDead();
+                }
+            }
+
             giveBirth(newMeerkats);
 
             if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
