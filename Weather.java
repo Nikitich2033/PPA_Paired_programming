@@ -37,6 +37,7 @@ public class Weather
         }
 
         else{
+            daysSinceRain = 0;
             removeDrought();
         }
         setIsDrought();
@@ -57,7 +58,6 @@ public class Weather
         }
         else if(daysSinceRain <= 5){
             IsDrought = false;
-
             removeDrought();
 
         }
@@ -65,6 +65,7 @@ public class Weather
     }
 
     private void removeDrought(){
+
         String[] words = currentWeather.split(" ");
         currentWeather = "";
         for (String word:

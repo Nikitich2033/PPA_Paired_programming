@@ -51,22 +51,26 @@ public class Meerkat extends Organism {
     public void act(List<Organism> newMeerkats, String timeOfDayString, Weather weather)
     {
         incrementAge();
-        if(isAlive()) {
 
+        if (isAlive()){
             if (weather.getIsDrought() == true){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
-                    if (randDieNum <= 50) setDead();
+                    if (randDieNum <= 7) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 65) setDead();
+                    if (randDieNum <= 9) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 85) setDead();
+                    if (randDieNum <= 13) setDead();
                 }
             }
+        }
+
+        if(isAlive()) {
 
             giveBirth(newMeerkats);
+
 
             if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
 

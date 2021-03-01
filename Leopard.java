@@ -65,22 +65,26 @@ public class Leopard extends Organism {
         incrementAge();
         incrementHunger();
 
-        if(isAlive()) {
-
+        if (isAlive()){
             if (weather.getIsDrought() == true){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
-                    if (randDieNum <= 20) setDead();
+                    if (randDieNum <= 3) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 40) setDead();
+                    if (randDieNum <= 6) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 60) setDead();
+                    if (randDieNum <= 11) setDead();
                 }
             }
+        }
+
+
+        if(isAlive()) {
 
             giveBirth(newLeopards);
+
 
             if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
 
@@ -99,9 +103,7 @@ public class Leopard extends Organism {
                     setDead();
                 }
             }
-            else{
 
-            }
 
         }
     }

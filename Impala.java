@@ -49,20 +49,25 @@ public class Impala extends Organism {
     public void act(List<Organism> newImpalas, String timeOfDayString, Weather weather)
     {
         incrementAge();
-        if(isAlive()) {
+
+        if (isAlive()){
 
             if (weather.getIsDrought() == true){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
-                    if (randDieNum <= 40) setDead();
+                    if (randDieNum <= 6) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 60) setDead();
+                    if (randDieNum <= 9) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 80) setDead();
+                    if (randDieNum <= 11) setDead();
                 }
             }
+
+        }
+
+        if(isAlive()) {
 
             giveBirth(newImpalas);
 

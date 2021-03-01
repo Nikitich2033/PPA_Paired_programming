@@ -50,21 +50,22 @@ public class Rhino extends Organism {
     {
         incrementAge();
 
-
-        if(isAlive()) {
-
+        if (isAlive()){
             if (weather.getIsDrought() == true){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
-                    if (randDieNum <= 20) setDead();
+                    if (randDieNum <= 10) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 40) setDead();
+                    if (randDieNum <= 14) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 60) setDead();
+                    if (randDieNum <= 17) setDead();
                 }
             }
+        }
+
+        if(isAlive()) {
 
             giveBirth(newRhinos);
 

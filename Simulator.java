@@ -103,7 +103,7 @@ public class Simulator
     {
         for(int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
-            delay(20);   // uncomment this to run more slowly
+            delay(35);   // uncomment this to run more slowly
         }
     }
     
@@ -118,7 +118,7 @@ public class Simulator
 
         //Set a new time of day every 3 steps
         if (step % 3 == 0 ){timeOfDay.incrementTimeOfDay();}
-        //New weather every 12 steps/ new day
+        //New weather every 12 steps/ day
         if (step % 12 == 0){weather.setRandomWeather();}
 
         // Provide space for newborn animals.

@@ -61,21 +61,25 @@ public class Cheetah extends Organism {
         incrementAge();
         incrementHunger();
 
-        if(isAlive()) {
-            //This IF statement represents a chance to die of dehydration in case of prolonged drought.
+        if (isAlive()){
+            //This IF statement represents a chance to die of dehydration in case of prolonged drought. (4 times a day)
             if (weather.getIsDrought() == true){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
-                    if (randDieNum <= 20) setDead();
+                    if (randDieNum <= 2) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 40) setDead();
+                    if (randDieNum <= 10) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 60) setDead();
+                    if (randDieNum <= 14) setDead();
                 }
             }
+        }
+
+        if(isAlive()) {
             giveBirth(newCheetahs);
+
             // Move towards a source of food if found.
             if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
                 Location newLocation = findFood();
