@@ -9,7 +9,6 @@ import java.awt.Color;
  * containing rabbits and foxes.
  * 
  * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
  */
 public class Simulator
 {   
@@ -27,7 +26,7 @@ public class Simulator
     private static final double IMPALA_CREATION_PROBABILITY = 0.06;
     private static final double RHINO_CREATION_PROBABILITY = 0.04;
 
-    private static final double GRASS_CREATION_PROBABILITY = 0.20;
+    private static final double GRASS_CREATION_PROBABILITY = 0.28;
 
     // List of animals in the field.
     private List<Organism> organisms;

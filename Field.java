@@ -124,9 +124,10 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
         for(Location next : adjacent) {
-            if(getObjectAt(next) == null) {
+            if(getObjectAt(next) == null || getObjectAt(next) instanceof Grass) {
                 free.add(next);
             }
+
         }
         return free;
     }

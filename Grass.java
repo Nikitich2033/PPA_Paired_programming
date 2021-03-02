@@ -12,11 +12,11 @@ public class Grass extends Organism
     //the age at which grass can produce seeds and reproduce
     private static final int POLLINATION_AGE = 5;
     // The age to which a grass patch can live.
-    private static final int MAX_AGE = 30;
+    private static final int MAX_AGE = 15;
     // The likelihood of a grass patch to pollinate.
-    private static final double POLLINATION_PROBABILITY = 0.40;
+    private static final double POLLINATION_PROBABILITY = 0.20;
     // The maximum number of offsprings.
-    private static final int MAX_OFFSPRING_NUM = 12;
+    private static final int MAX_OFFSPRING_NUM = 4;
 
     private int age;
 
@@ -77,7 +77,7 @@ public class Grass extends Organism
 
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
 
-        int births = breed();
+        int births = makeOffsprings();
 
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
@@ -94,20 +94,20 @@ public class Grass extends Organism
      * if it can pollinate.
      * @return The number of new offsprings (may be zero).
      */
-    private int breed()
+    private int makeOffsprings()
     {
-        int births = 0;
-        if(canBreed() && rand.nextDouble() <= POLLINATION_PROBABILITY) {
-            births = rand.nextInt(MAX_OFFSPRING_NUM) + 1;
+        int offsprings = 0;
+        if(canReproduce() && rand.nextDouble() <= POLLINATION_PROBABILITY) {
+            offsprings = rand.nextInt(MAX_OFFSPRING_NUM) + 1;
         }
-        return births;
+        return offsprings;
     }
 
     /**
      * A plant can produce offsprings if it has reached the pollination age.
      * @return true if the plant is old enough to pollinate.
      */
-    private boolean canBreed()
+    private boolean canReproduce()
     {
         return age >= POLLINATION_AGE;
     }

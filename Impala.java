@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,8 @@ public class Impala extends Organism {
     private static final double BREEDING_PROBABILITY = 0.14;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
+    // number of steps an Impala can go before it has to eat again.
+    private static final int FOOD_VALUE = 14;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -19,6 +22,9 @@ public class Impala extends Organism {
 
     // The Impala's age.
     private int age;
+
+    // The Impala's food level, which is increased by eating animals.
+    private int foodLevel;
 
     private Boolean gender;
     /**
@@ -35,6 +41,11 @@ public class Impala extends Organism {
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
+            foodLevel = rand.nextInt(FOOD_VALUE);
+        }
+        else{
+            age = 0;
+            foodLevel = FOOD_VALUE;
         }
 
         gender = rand.nextBoolean();
@@ -49,6 +60,7 @@ public class Impala extends Organism {
     public void act(List<Organism> newImpalas, String timeOfDayString, Weather weather)
     {
         incrementAge();
+        incrementHunger();
 
         if (isAlive()){
 
@@ -72,9 +84,12 @@ public class Impala extends Organism {
             giveBirth(newImpalas);
 
             if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
-
-                // Try to move into a free location.
-                Location newLocation = getField().freeAdjacentLocation(getLocation());
+                Location newLocation = findFood();
+                if(newLocation == null) {
+                    // No food found - try to move to a free location.
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                // See if it was possible to move.
                 if(newLocation != null) {
                     setLocation(newLocation);
                 }
@@ -86,6 +101,44 @@ public class Impala extends Organism {
 
         }
     }
+
+    /**
+     * Make this Impala more hungry. This could result in the Leopard's death.
+     */
+    private void incrementHunger()
+    {
+        foodLevel--;
+        if(foodLevel <= 0) {
+            setDead();
+        }
+    }
+
+    /**
+     * Look for grass adjacent to the current location.
+     * Only the first grass patch is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
+    private Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = field.getObjectAt(where);
+            if(organism instanceof Grass) {
+                Grass grass = (Grass) organism;
+                if(grass.isAlive()) {
+                    grass.setDead();
+                    foodLevel = FOOD_VALUE;
+                    return where;
+                }
+            }
+
+        }
+        return null;
+    }
+
 
     /**
      * Increase the age.

@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,8 @@ public class Rhino extends Organism {
     private static final double BREEDING_PROBABILITY = 0.09;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
+    // number of steps a Rhino can go before it has to eat again.
+    private static final int FOOD_VALUE = 17;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -21,6 +24,9 @@ public class Rhino extends Organism {
     private int age;
 
     private Boolean gender;
+
+    // The Rhino's food level, which is increased by eating animals.
+    private int foodLevel;
 
     /**
      * Create a new Rhino. A Rhino may be created with age
@@ -36,6 +42,11 @@ public class Rhino extends Organism {
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
+            foodLevel = rand.nextInt(FOOD_VALUE);
+        }
+        else{
+            age = 0;
+            foodLevel = FOOD_VALUE;
         }
 
         gender = rand.nextBoolean();
@@ -49,6 +60,7 @@ public class Rhino extends Organism {
     public void act(List<Organism> newRhinos, String timeOfDayString, Weather weather)
     {
         incrementAge();
+        incrementHunger();
 
         if (isAlive()){
             if (weather.getIsDrought() == true){
@@ -69,10 +81,15 @@ public class Rhino extends Organism {
 
             giveBirth(newRhinos);
 
+
             if (timeOfDayString.equals("Morning") || timeOfDayString.equals("Day")){
 
-                // Try to move into a free location.
-                Location newLocation = getField().freeAdjacentLocation(getLocation());
+                Location newLocation = findFood();
+                if(newLocation == null) {
+                    // No food found - try to move to a free location.
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                // See if it was possible to move.
                 if(newLocation != null) {
                     setLocation(newLocation);
                 }
@@ -84,6 +101,44 @@ public class Rhino extends Organism {
             }
 
         }
+    }
+
+    /**
+     * Make this Impala more hungry. This could result in the Leopard's death.
+     */
+    private void incrementHunger()
+    {
+        foodLevel--;
+        if(foodLevel <= 0) {
+            setDead();
+        }
+    }
+
+    /**
+     * Look for grass adjacent to the current location.
+     * Only the first grass patch is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
+    private Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+
+            Location where = it.next();
+            Object organism = field.getObjectAt(where);
+            if(organism instanceof Grass) {
+                Grass grass = (Grass) organism;
+                if(grass.isAlive()) {
+                    grass.setDead();
+                    foodLevel = FOOD_VALUE;
+                    return where;
+                }
+            }
+
+        }
+        return null;
     }
 
     /**

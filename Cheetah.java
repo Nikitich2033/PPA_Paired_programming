@@ -14,7 +14,7 @@ public class Cheetah extends Organism {
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
-    // number of steps a Cheeta can go before it has to eat again.
+    // number of steps a Cheetah can go before it has to eat again.
     private static final int FOOD_VALUE = 16;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
@@ -134,32 +134,33 @@ public class Cheetah extends Organism {
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
+            Object organism = field.getObjectAt(where);
 
-            if(animal instanceof Meerkat) {
-                Meerkat meerkat = (Meerkat) animal;
+            if(organism instanceof Meerkat) {
+                Meerkat meerkat = (Meerkat) organism;
                 if(meerkat.isAlive()) {
                     meerkat.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
-            else if(animal instanceof Impala) {
-                Impala impala = (Impala) animal;
+            else if(organism instanceof Impala) {
+                Impala impala = (Impala) organism;
                 if(impala.isAlive()) {
                     impala.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
-            else if(animal instanceof Rhino) {
-                Rhino rhino = (Rhino) animal;
+            else if(organism instanceof Rhino) {
+                Rhino rhino = (Rhino) organism;
                 if(rhino.isAlive()) {
                     rhino.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
+
         }
         return null;
     }
@@ -179,11 +180,11 @@ public class Cheetah extends Organism {
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         List<Location> full = field.getFullAdjacentLocations(getLocation());
 
+        int births = breed();
+
         for (Location location: full) {
             if ( field.getObjectAt(location) instanceof Cheetah
                     && ((Cheetah) field.getObjectAt(location)).gender != gender){
-
-                int births = breed();
 
                 for(int b = 0; b < births && free.size() > 0; b++) {
                     Location loc = free.remove(0);
@@ -192,6 +193,7 @@ public class Cheetah extends Organism {
                 }
                 break;
             }
+
         }
     }
 

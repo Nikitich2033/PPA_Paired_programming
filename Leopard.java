@@ -142,31 +142,33 @@ public class Leopard extends Organism {
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Meerkat) {
-               Meerkat meerkat = (Meerkat) animal;
+            Object organism = field.getObjectAt(where);
+
+            if(organism instanceof Meerkat) {
+                Meerkat meerkat = (Meerkat) organism;
                 if(meerkat.isAlive()) {
                     meerkat.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
-            else if(animal instanceof Impala) {
-                Impala impala = (Impala) animal;
+            else if(organism instanceof Impala) {
+                Impala impala = (Impala) organism;
                 if(impala.isAlive()) {
                     impala.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
-            else if(animal instanceof Rhino) {
-                Rhino rhino = (Rhino) animal;
+            else if(organism instanceof Rhino) {
+                Rhino rhino = (Rhino) organism;
                 if(rhino.isAlive()) {
                     rhino.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
+
         }
         return null;
     }
