@@ -10,11 +10,11 @@ public class Impala extends Organism {
     // The age to which a Impala can live.
     private static final int MAX_AGE = 70;
     // The likelihood of a Impala breeding.
-    private static final double BREEDING_PROBABILITY = 0.14;
+    private static final double BREEDING_PROBABILITY = 0.30;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // number of steps an Impala can go before it has to eat again.
-    private static final int FOOD_VALUE = 14;
+    private static final int FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -126,10 +126,10 @@ public class Impala extends Organism {
         while(it.hasNext()) {
             Location where = it.next();
             Object organism = field.getObjectAt(where);
-            if(organism instanceof Grass) {
-                Grass grass = (Grass) organism;
-                if(grass.isAlive()) {
-                    grass.setDead();
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive()) {
+                    plant.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }

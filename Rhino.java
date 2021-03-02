@@ -10,11 +10,11 @@ public class Rhino extends Organism {
     // The age to which a Rhino can live.
     private static final int MAX_AGE = 80;
     // The likelihood of a Rhino breeding.
-    private static final double BREEDING_PROBABILITY = 0.09;
+    private static final double BREEDING_PROBABILITY = 0.30;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // number of steps a Rhino can go before it has to eat again.
-    private static final int FOOD_VALUE = 17;
+    private static final int FOOD_VALUE = 30;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -128,10 +128,10 @@ public class Rhino extends Organism {
 
             Location where = it.next();
             Object organism = field.getObjectAt(where);
-            if(organism instanceof Grass) {
-                Grass grass = (Grass) organism;
-                if(grass.isAlive()) {
-                    grass.setDead();
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive()) {
+                    plant.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }

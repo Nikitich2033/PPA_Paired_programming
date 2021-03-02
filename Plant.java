@@ -7,14 +7,14 @@ import java.util.Random;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Grass extends Organism
+public class Plant extends Organism
 {
     //the age at which grass can produce seeds and reproduce
     private static final int POLLINATION_AGE = 5;
     // The age to which a grass patch can live.
-    private static final int MAX_AGE = 15;
+    private static final int MAX_AGE = 30;
     // The likelihood of a grass patch to pollinate.
-    private static final double POLLINATION_PROBABILITY = 0.20;
+    private static final double POLLINATION_PROBABILITY = 0.40;
     // The maximum number of offsprings.
     private static final int MAX_OFFSPRING_NUM = 4;
 
@@ -25,7 +25,7 @@ public class Grass extends Organism
     /**
      * Constructor for objects of class Grass
      */
-    public Grass(boolean randomAge,Field field,Location location)
+    public Plant(boolean randomAge, Field field, Location location)
     {
         super(field,location);
 
@@ -45,6 +45,22 @@ public class Grass extends Organism
     public void act(List<Organism> newGrass, String timeOfDayString, Weather weather)
     {
         incrementAge();
+
+        if (isAlive()){
+            //This IF statement represents a chance to die of dehydration in case of prolonged drought. (4 times a day)
+            if (weather.getIsDrought() == true){
+                int randDieNum = rand.nextInt(100);
+                if (weather.getDaysSinceRain() <= 6){
+                    if (randDieNum <= 3) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
+                    if (randDieNum <= 9) setDead();
+                }
+                else if(weather.getDaysSinceRain() > 10) {
+                    if (randDieNum <= 18) setDead();
+                }
+            }
+        }
 
         if(isAlive()) {
 
@@ -81,8 +97,10 @@ public class Grass extends Organism
 
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Grass sprout = new Grass(false, field, loc);
-            newGrass.add(sprout);
+            if (field.getObjectAt(loc) instanceof Plant == false){
+                Plant sprout = new Plant(false, field, loc);
+                newGrass.add(sprout);
+            }
         }
 
 

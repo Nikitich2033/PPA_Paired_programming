@@ -6,16 +6,16 @@ public class Leopard extends Organism {
     // Characteristics shared by all Leopards (class variables).
 
     // The age at which a Leopard can start to breed.
-    private static final int BREEDING_AGE = 12;
+    private static final int BREEDING_AGE = 15;
     // The age to which a Leopard can live.
-    private static final int MAX_AGE = 120;
+    private static final int MAX_AGE = 90;
     // The likelihood of a Leopard breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+    private static final double BREEDING_PROBABILITY = 0.19;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single animal. In effect, this is the
     // number of steps a Leopard can go before it has to eat again.
-    private static final int FOOD_VALUE = 11;
+    private static final int FOOD_VALUE = 19;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -69,13 +69,13 @@ public class Leopard extends Organism {
             if (weather.getIsDrought() == true){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
-                    if (randDieNum <= 3) setDead();
+                    if (randDieNum <= 2) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 6) setDead();
+                    if (randDieNum <= 4) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 11) setDead();
+                    if (randDieNum <= 9) setDead();
                 }
             }
         }

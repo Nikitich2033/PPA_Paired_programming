@@ -10,7 +10,7 @@ import java.util.Random;
 public class Weather
 {
     // instance variables - replace the example below with your own
-    private String[] statesOfWeather = {"Sunny","Heatwave","Tornado","Fog","Cloudy", "Rain","Thunderstorm"};
+    private String[] statesOfWeather = {"Clear","Heatwave","Fog","Cloudy", "Rain","Thunderstorm"};
     private String currentWeather;
     private Boolean IsDrought;
     private int daysSinceRain;
@@ -32,7 +32,7 @@ public class Weather
     public void setRandomWeather()
     {
         currentWeather = statesOfWeather[rand.nextInt(statesOfWeather.length - 1)];
-        if (currentWeather != "Rain"){
+        if (currentWeather != "Rain" && currentWeather != "Thunderstorm" ){
             daysSinceRain++;
         }
 
@@ -52,11 +52,11 @@ public class Weather
 
     private void setIsDrought(){
 
-        if (daysSinceRain > 5){
+        if (daysSinceRain > 7){
             currentWeather = currentWeather + " (DROUGHT)";
             IsDrought = true;
         }
-        else if(daysSinceRain <= 5){
+        else if(daysSinceRain <= 7){
             IsDrought = false;
             removeDrought();
 

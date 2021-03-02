@@ -1,5 +1,4 @@
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -124,7 +123,7 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
         for(Location next : adjacent) {
-            if(getObjectAt(next) == null || getObjectAt(next) instanceof Grass) {
+            if(getObjectAt(next) == null || getObjectAt(next) instanceof Plant) {
                 free.add(next);
             }
 

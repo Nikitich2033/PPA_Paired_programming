@@ -8,14 +8,14 @@ public class Cheetah extends Organism {
     // The age at which a Cheeta can start to breed.
     private static final int BREEDING_AGE = 15;
     // The age to which a Cheeta can live.
-    private static final int MAX_AGE = 150;
+    private static final int MAX_AGE = 85;
     // The likelihood of a Cheeta breeding.
-    private static final double BREEDING_PROBABILITY = 0.05;
+    private static final double BREEDING_PROBABILITY = 0.17;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a Cheetah can go before it has to eat again.
-    private static final int FOOD_VALUE = 16;
+    private static final int FOOD_VALUE = 22;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -27,7 +27,7 @@ public class Cheetah extends Organism {
 
     private Boolean gender;
     /**
-     * Create a Cheeta. A Cheeta can be created as a new born (age zero
+     * Create a Cheetah. A Cheetah can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      *
      * @param randomAge If true, the Cheetah will have random age and hunger level.
@@ -69,10 +69,10 @@ public class Cheetah extends Organism {
                     if (randDieNum <= 2) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 6 && weather.getDaysSinceRain() <= 10) {
-                    if (randDieNum <= 10) setDead();
+                    if (randDieNum <= 6) setDead();
                 }
                 else if(weather.getDaysSinceRain() > 10) {
-                    if (randDieNum <= 14) setDead();
+                    if (randDieNum <= 11) setDead();
                 }
             }
         }
@@ -188,6 +188,7 @@ public class Cheetah extends Organism {
 
                 for(int b = 0; b < births && free.size() > 0; b++) {
                     Location loc = free.remove(0);
+
                     Cheetah young = new Cheetah(false, field, loc);
                     newCheetahs.add(young);
                 }

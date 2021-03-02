@@ -15,9 +15,9 @@ public class Simulator
     //testing GitHub on bluej
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 120;
+    private static final int DEFAULT_WIDTH = 180;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 80;
+    private static final int DEFAULT_DEPTH = 140;
     //
     private static final double LEOPARD_CREATION_PROBABILITY = 0.03;
     private static final double CHEETAH_CREATION_PROBABILITY = 0.02;
@@ -26,7 +26,7 @@ public class Simulator
     private static final double IMPALA_CREATION_PROBABILITY = 0.06;
     private static final double RHINO_CREATION_PROBABILITY = 0.04;
 
-    private static final double GRASS_CREATION_PROBABILITY = 0.28;
+    private static final double GRASS_CREATION_PROBABILITY = 0.50;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -78,7 +78,7 @@ public class Simulator
         view.setColor(Meerkat.class,Color.BLUE);
         view.setColor(Impala.class,Color.MAGENTA);
         view.setColor(Rhino.class,Color.ORANGE);
-        view.setColor(Grass.class,Color.GREEN);
+        view.setColor(Plant.class,Color.GREEN);
         
         // Setup a valid starting point.
         reset();
@@ -117,7 +117,7 @@ public class Simulator
 
         //Set a new time of day every 3 steps
         if (step % 3 == 0 ){timeOfDay.incrementTimeOfDay();}
-        //New weather every 12 steps/ day
+        //New weather every 12 steps/ a day
         if (step % 12 == 0){weather.setRandomWeather();}
 
         // Provide space for newborn animals.
@@ -189,8 +189,8 @@ public class Simulator
                 }
                 else if(rand.nextDouble() <= GRASS_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Grass grass = new Grass(true, field, location);
-                    organisms.add(grass);
+                    Plant plant = new Plant(true, field, location);
+                    organisms.add(plant);
                 }
                 // else leave the location empty.
             }

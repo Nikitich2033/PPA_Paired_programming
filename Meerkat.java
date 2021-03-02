@@ -11,11 +11,11 @@ public class Meerkat extends Organism {
     // The age to which a Meerkat can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a Meerkat breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+    private static final double BREEDING_PROBABILITY = 0.15;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // number of steps an Impala can go before it has to eat again.
-    private static final int FOOD_VALUE = 12;
+    private static final int FOOD_VALUE = 15;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -116,10 +116,10 @@ public class Meerkat extends Organism {
         while(it.hasNext()) {
             Location where = it.next();
             Object organism = field.getObjectAt(where);
-            if(organism instanceof Grass) {
-                Grass grass = (Grass) organism;
-                if(grass.isAlive()) {
-                    grass.setDead();
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive()) {
+                    plant.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
