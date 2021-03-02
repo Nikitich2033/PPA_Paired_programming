@@ -116,7 +116,6 @@ public class Simulator
     {
         step++;
 
-
         //Set a new time of day every 3 steps
         if (step % 3 == 0 ){timeOfDay.incrementTimeOfDay();}
         //New weather every 12 steps/ day
