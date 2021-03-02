@@ -74,12 +74,12 @@ public class Simulator
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
 
-      //  view.setColor(Fox.class, Color.BLUE);
-        view.setColor(Cheetah.class,Color.red);
+        view.setColor(Cheetah.class,Color.RED);
         view.setColor(Leopard.class,Color.YELLOW);
         view.setColor(Meerkat.class,Color.BLUE);
         view.setColor(Impala.class,Color.MAGENTA);
         view.setColor(Rhino.class,Color.ORANGE);
+        view.setColor(Grass.class,Color.GREEN);
         
         // Setup a valid starting point.
         reset();
@@ -187,6 +187,11 @@ public class Simulator
                     Location location = new Location(row, col);
                     Rhino rhino = new Rhino(true, field, location);
                     organisms.add(rhino);
+                }
+                else if(rand.nextDouble() <= GRASS_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Grass grass = new Grass(true, field, location);
+                    organisms.add(grass);
                 }
                 // else leave the location empty.
             }
