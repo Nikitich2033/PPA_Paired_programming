@@ -2,17 +2,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Write a description of class Weather here.
+ * Weather class that represents the weather inside the simulation.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Nikita Lyakhovoy
  */
 public class Weather
 {
-    // instance variables - replace the example below with your own
+    // an array with all the possible types of weather in the simulation
     private String[] statesOfWeather = {"Clear","Heatwave","Fog","Cloudy", "Rain","Thunderstorm"};
+    //Stores the current state of weather
     private String currentWeather;
+    //Indicates where there isa drought or not at this point in time.
     private Boolean IsDrought;
+    //Stores the number of days that have passed since the last rain occured
     private int daysSinceRain;
 
     private static final Random rand = Randomizer.getRandom();
@@ -44,7 +46,7 @@ public class Weather
     }
 
     /**
-     * Return the current state of weather.
+     * @return the current state of weather.
      */
     public String getCurrentWeather() {
         return currentWeather;
@@ -64,6 +66,9 @@ public class Weather
 
     }
 
+    /**
+     * Removes the drought keyword from the current state of weather.
+     */
     private void removeDrought(){
 
         String[] words = currentWeather.split(" ");
@@ -75,10 +80,16 @@ public class Weather
 
     }
 
+    /*
+    *@return true if there is a drought at his point in time.
+    */
     public Boolean getIsDrought() {
         return IsDrought;
     }
 
+    /**
+     * @return days since lats rain
+     */
     public int getDaysSinceRain() {
         return daysSinceRain;
     }

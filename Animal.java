@@ -1,17 +1,12 @@
 import java.util.Random;
 
 /**
- * Abstract class Animal - write a description of the class here
+ * A class representing shared characteristics of animals.
  *
- * @author (your name here)
- * @version (version number or date here)
+ * @author Nikita Lyakhovoy
  */
 public abstract class Animal extends Organism
 {
-    // The Leopard's age.
-    private int age;
-
-    private int foodLevel;
 
     private Boolean gender;
 
@@ -23,7 +18,6 @@ public abstract class Animal extends Organism
         gender = rand.nextBoolean();
 
     }
-
 
     protected Boolean getGender() {
         return gender;

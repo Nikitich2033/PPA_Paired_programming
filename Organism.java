@@ -3,8 +3,7 @@ import java.util.List;
 /**
  * A class representing shared characteristics of organisms.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author David J. Barnes, Michael Kölling, Nikita Lyakhovoy
  */
 public abstract class Organism
 {
@@ -14,6 +13,7 @@ public abstract class Organism
     private Field field;
     // The organism's position in the field.
     private Location location;
+
 
     /**
      * Create a new organism at location in field.
@@ -32,6 +32,8 @@ public abstract class Organism
      * Make this organism act - that is: make it do
      * whatever it wants/needs to do.
      * @param newOrganisms A list to receive newly born organisms.
+     * @param timeOfDayString A string which represents the current time of day of the simulation.
+     * @param weather An object that contains the information about weather in the simulation.
      */
     abstract public void act(List<Organism> newOrganisms, String timeOfDayString, Weather weather);
 

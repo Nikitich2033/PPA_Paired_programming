@@ -2,10 +2,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Write a description of class Grass here.
+ * A class that represents plants.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Nikita Lyakhovoy
  */
 public class Plant extends Organism
 {
@@ -14,16 +13,21 @@ public class Plant extends Organism
     // The age to which a grass patch can live.
     private static final int MAX_AGE = 30;
     // The likelihood of a grass patch to pollinate.
-    private static final double POLLINATION_PROBABILITY = 0.40;
+    private static final double POLLINATION_PROBABILITY = 0.70;
     // The maximum number of offsprings.
     private static final int MAX_OFFSPRING_NUM = 4;
 
+    //plant's age
     private int age;
 
     private static final Random rand = Randomizer.getRandom();
 
     /**
-     * Constructor for objects of class Grass
+     * Create a new plant at location in field
+     *
+     * @param randomAge If true set age to a randmo value less than the MAX_AGE, else set it to 0
+     * @param field The field currently occupied.
+     * @param location The location within the field.
      */
     public Plant(boolean randomAge, Field field, Location location)
     {
@@ -38,9 +42,11 @@ public class Plant extends Organism
 
 
     /**
-     * This is what the Impala does most of the time - it runs
-     * around. Sometimes it will breed or die of old age.
+     * Plants do not move, they can only produce offspring that will be place in the nearby locations.
+     * Plants can also die of age or during drought.
      * @param newGrass A list to return newly born Impalas.
+     * @param timeOfDayString A string that represents the current time of day in the simulation.
+     * @param weather An object that contains information on the current weather in the simulation.
      */
     public void act(List<Organism> newGrass, String timeOfDayString, Weather weather)
     {
@@ -64,6 +70,7 @@ public class Plant extends Organism
 
         if(isAlive()) {
 
+            //Plants can only reproduce during morning or day.
             if (timeOfDayString.equals("Morning") || timeOfDayString.equals("Day")){
                 reproduce(newGrass);
             }
@@ -75,7 +82,7 @@ public class Plant extends Organism
 
     /**
      * Increase the age.
-     * This could result in the Impala's death.
+     * This could result in the plant's death.
      */
     private void incrementAge()
     {
@@ -85,9 +92,13 @@ public class Plant extends Organism
         }
     }
 
-    private void reproduce(List<Organism> newGrass)
+    /**
+     * Produce new offspring.
+     * @param newPlants list of newly grown plants.
+     */
+    private void reproduce(List<Organism> newPlants)
     {
-        // New Impalas are born into adjacent locations.
+        // New plants grow in adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
 
@@ -97,9 +108,9 @@ public class Plant extends Organism
 
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            if (field.getObjectAt(loc) instanceof Plant == false){
+            if (!(field.getObjectAt(loc) instanceof Plant)){
                 Plant sprout = new Plant(false, field, loc);
-                newGrass.add(sprout);
+                newPlants.add(sprout);
             }
         }
 

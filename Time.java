@@ -2,11 +2,13 @@
 /**
  * Time class stores the current time of day.
  *
+ * @author Nikita Lyakhovoy
  */
 public class Time
 {
-    // instance
+    // an array with all possible states of  time
     private String[] statesOfTime = {"Morning", "Day", "Evening", "Night"};
+    //current time of day
     private int timeOfDay;
 
     /**
@@ -36,6 +38,9 @@ public class Time
         }
     }
 
+    /**
+     * Resets timeOfDay to morning
+     */
     public void reset(){
         timeOfDay = 0;
     }

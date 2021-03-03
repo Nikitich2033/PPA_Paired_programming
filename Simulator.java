@@ -6,27 +6,28 @@ import java.awt.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing rabbits and foxes.
+ * containing animals from the African Savannah: Leopards, Cheetahs,
+ * Boars, Impalas and Rhinos and also generic planst
  * 
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes, Michael Kölling and Nikita Lyakhovoy
  */
 public class Simulator
 {   
-    //testing GitHub on bluej
+
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
     private static final int DEFAULT_WIDTH = 180;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 140;
     //
-    private static final double LEOPARD_CREATION_PROBABILITY = 0.03;
+    private static final double LEOPARD_CREATION_PROBABILITY = 0.02;
     private static final double CHEETAH_CREATION_PROBABILITY = 0.02;
+    private static final double BOAR_CREATION_PROBABILITY = 0.08;
+    private static final double IMPALA_CREATION_PROBABILITY = 0.07;
+    private static final double RHINO_CREATION_PROBABILITY = 0.09;
 
-    private static final double MEERKAT_CREATION_PROBABILITY = 0.07;
-    private static final double IMPALA_CREATION_PROBABILITY = 0.06;
-    private static final double RHINO_CREATION_PROBABILITY = 0.04;
 
-    private static final double GRASS_CREATION_PROBABILITY = 0.50;
+    private static final double GRASS_CREATION_PROBABILITY = 0.60;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -75,7 +76,7 @@ public class Simulator
 
         view.setColor(Cheetah.class,Color.RED);
         view.setColor(Leopard.class,Color.YELLOW);
-        view.setColor(Meerkat.class,Color.BLUE);
+        view.setColor(Boar.class,Color.BLUE);
         view.setColor(Impala.class,Color.MAGENTA);
         view.setColor(Rhino.class,Color.ORANGE);
         view.setColor(Plant.class,Color.GREEN);
@@ -102,7 +103,7 @@ public class Simulator
     {
         for(int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
-            delay(35);   // uncomment this to run more slowly
+            delay(15);   // uncomment this to run more slowly
         }
     }
     
@@ -120,9 +121,9 @@ public class Simulator
         //New weather every 12 steps/ a day
         if (step % 12 == 0){weather.setRandomWeather();}
 
-        // Provide space for newborn animals.
+        // Provide space for newborn organisms.
         List<Organism> newOrganisms = new ArrayList<>();
-        // Let all rabbits act.
+        // Let organisms.
         for(Iterator<Organism> it = organisms.iterator(); it.hasNext(); ) {
             Organism organism = it.next();
             organism.act(newOrganisms, timeOfDay.getTimeOfDay(), weather);
@@ -131,9 +132,10 @@ public class Simulator
             }
         }
                
-        // Add the newly born foxes and rabbits to the main lists.
+        // Add the newly born animals and plants to the main lists.
         organisms.addAll(newOrganisms);
 
+        //show the current state of the simulation in the view
         view.showStatus(step,timeOfDay.getTimeOfDay(), weather.getCurrentWeather() ,field);
     }
 
@@ -154,7 +156,7 @@ public class Simulator
     }
     
     /**
-     * Randomly populate the field with foxes and rabbits.
+     * Randomly populate the field with organisms.
      */
     private void populate()
     {
@@ -172,10 +174,10 @@ public class Simulator
                     Cheetah cheetah = new Cheetah(true, field, location);
                     organisms.add(cheetah);
                 }
-                else if(rand.nextDouble() <= MEERKAT_CREATION_PROBABILITY) {
+                else if(rand.nextDouble() <= BOAR_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Meerkat meerkat = new Meerkat(true, field, location);
-                    organisms.add(meerkat);
+                    Boar boar = new Boar(true, field, location);
+                    organisms.add(boar);
                 }
                 else if(rand.nextDouble() <= IMPALA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);

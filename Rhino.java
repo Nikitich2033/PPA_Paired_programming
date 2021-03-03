@@ -14,7 +14,7 @@ public class Rhino extends Animal {
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 1;
     // number of steps a Rhino can go before it has to eat again.
-    private static final int FOOD_VALUE = 30;
+    private static final int FOOD_VALUE = 24;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -51,16 +51,19 @@ public class Rhino extends Animal {
 
     /**
      * This is what the Rhino does most of the time - it runs
-     * around. Sometimes it will breed or die of old age.
+     * around nad eats. Sometimes it will breed or die of old age.
      * @param newRhinos A list to return newly born Rhinos.
+     * @param timeOfDayString A string that represents the current time of day in the simulation.
+     * @param weather An object that contains information on the current weather in the simulation.
      */
     public void act(List<Organism> newRhinos, String timeOfDayString, Weather weather)
     {
         incrementAge();
         incrementHunger();
 
+        //This IF statement represents a chance to die of dehydration in case of prolonged drought.
         if (isAlive()){
-            if (weather.getIsDrought() == true){
+            if (weather.getIsDrought()){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
                     if (randDieNum <= 10) setDead();
@@ -78,30 +81,36 @@ public class Rhino extends Animal {
 
             giveBirth(newRhinos);
 
+            //the conditions in what weather Rhino moves around are specified here
+            if (weather.getCurrentWeather().equals("Clear")
+                    || weather.getCurrentWeather().equals("Cloudy")
+                    || weather.getCurrentWeather().equals("Rain")){
 
-            if (timeOfDayString.equals("Morning") || timeOfDayString.equals("Day")){
+                //the conditions at which time of day Rhino moves around are specified here
+                if (timeOfDayString.equals("Morning") || timeOfDayString.equals("Day")){
 
-                Location newLocation = findFood();
-                if(newLocation == null) {
-                    // No food found - try to move to a free location.
-                    newLocation = getField().freeAdjacentLocation(getLocation());
-                }
-                // See if it was possible to move.
-                if(newLocation != null) {
-                    setLocation(newLocation);
-                }
-                else {
-                    // Overcrowding.
-                    setDead();
-                }
+                    Location newLocation = findFood();
+                    if(newLocation == null) {
+                        // No food found - try to move to a free location.
+                        newLocation = getField().freeAdjacentLocation(getLocation());
+                    }
+                    // See if it was possible to move.
+                    if(newLocation != null) {
+                        setLocation(newLocation);
+                    }
+                    else {
+                        // Overcrowding.
+                        setDead();
+                    }
 
+                }
             }
 
         }
     }
 
     /**
-     * Make this Impala more hungry. This could result in the Leopard's death.
+     * Make this Rhino more hungry. This could result in the Rhino's death.
      */
     private void incrementHunger()
     {
@@ -112,8 +121,8 @@ public class Rhino extends Animal {
     }
 
     /**
-     * Look for grass adjacent to the current location.
-     * Only the first grass patch is eaten.
+     * Look for plants adjacent to the current location.
+     * Only the first plant is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -172,6 +181,8 @@ public class Rhino extends Animal {
 
                 for(int b = 0; b < births && free.size() > 0; b++) {
                     Location loc = free.remove(0);
+
+
                     Rhino young = new Rhino(false, field, loc);
                     newRhinos.add(young);
                 }

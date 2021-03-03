@@ -1,11 +1,12 @@
 #BlueJ class context
 comment0.target=Field
-comment0.text=\r\n\ Represent\ a\ rectangular\ grid\ of\ field\ positions.\r\n\ Each\ position\ is\ able\ to\ store\ a\ single\ animal.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\r\n\ @version\ 2016.02.29\r\n
+comment0.text=\r\n\ Represent\ a\ rectangular\ grid\ of\ field\ positions.\r\n\ Each\ position\ is\ able\ to\ store\ a\ single\ organism.\r\n\ \r\n\ @author\ David\ J.\ Barnes,\ Michael\ K\u00F6lling\ and\ Nikita\ Lyakhovoy\r\n\r\n
 comment1.params=depth\ width
 comment1.target=Field(int,\ int)
 comment1.text=\r\n\ Represent\ a\ field\ of\ the\ given\ dimensions.\r\n\ @param\ depth\ The\ depth\ of\ the\ field.\r\n\ @param\ width\ The\ width\ of\ the\ field.\r\n
 comment10.params=location
 comment10.target=java.util.List\ getFullAdjacentLocations(Location)
+comment10.text=\r\n\ Get\ a\ shuffled\ list\ of\ the\ full\ adjacent\ locations.\r\n\ @param\ location\ Get\ locations\ adjacent\ to\ this.\r\n\ @return\ A\ list\ of\ free\ adjacent\ locations.\r\n
 comment11.params=location
 comment11.target=Location\ freeAdjacentLocation(Location)
 comment11.text=\r\n\ Try\ to\ find\ a\ free\ location\ that\ is\ adjacent\ to\ the\r\n\ given\ location.\ If\ there\ is\ none,\ return\ null.\r\n\ The\ returned\ location\ will\ be\ within\ the\ valid\ bounds\r\n\ of\ the\ field.\r\n\ @param\ location\ The\ location\ from\ which\ to\ generate\ an\ adjacency.\r\n\ @return\ A\ valid\ location\ within\ the\ grid\ area.\r\n
@@ -41,5 +42,5 @@ comment8.target=Location\ randomAdjacentLocation(Location)
 comment8.text=\r\n\ Generate\ a\ random\ location\ that\ is\ adjacent\ to\ the\r\n\ given\ location,\ or\ is\ the\ same\ location.\r\n\ The\ returned\ location\ will\ be\ within\ the\ valid\ bounds\r\n\ of\ the\ field.\r\n\ @param\ location\ The\ location\ from\ which\ to\ generate\ an\ adjacency.\r\n\ @return\ A\ valid\ location\ within\ the\ grid\ area.\r\n
 comment9.params=location
 comment9.target=java.util.List\ getFreeAdjacentLocations(Location)
-comment9.text=\r\n\ Get\ a\ shuffled\ list\ of\ the\ free\ adjacent\ locations.\r\n\ @param\ location\ Get\ locations\ adjacent\ to\ this.\r\n\ @return\ A\ list\ of\ free\ adjacent\ locations.\r\n
+comment9.text=\r\n\ Get\ a\ shuffled\ list\ of\ the\ free\ adjacent\ locations.\r\n\ Free\ adjacent\ locations\ also\ include\ locations\ with\ plants.\r\n\ @param\ location\ Get\ locations\ adjacent\ to\ this.\r\n\ @return\ A\ list\ of\ free\ adjacent\ locations.\r\n
 numComments=15

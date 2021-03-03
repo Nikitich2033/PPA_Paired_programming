@@ -5,10 +5,10 @@ import java.util.Random;
 
 /**
  * Represent a rectangular grid of field positions.
- * Each position is able to store a single animal.
+ * Each position is able to store a single organism.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * @author David J. Barnes, Michael Kölling and Nikita Lyakhovoy
+ *
  */
 public class Field
 {
@@ -115,6 +115,7 @@ public class Field
     
     /**
      * Get a shuffled list of the free adjacent locations.
+     * Free adjacent locations also include locations with plants.
      * @param location Get locations adjacent to this.
      * @return A list of free adjacent locations.
      */
@@ -123,6 +124,7 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
         for(Location next : adjacent) {
+            //checks whether the location is empty or contains a plant.
             if(getObjectAt(next) == null || getObjectAt(next) instanceof Plant) {
                 free.add(next);
             }
@@ -131,6 +133,12 @@ public class Field
         return free;
     }
 
+
+    /**
+     * Get a shuffled list of the full adjacent locations.
+     * @param location Get locations adjacent to this.
+     * @return A list of free adjacent locations.
+     */
     public List<Location> getFullAdjacentLocations(Location location){
 
         List<Location> full = new LinkedList<>();

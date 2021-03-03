@@ -2,40 +2,40 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Meerkat extends Animal {
-    // Characteristics shared by all Meerkats
+public class Boar extends Animal {
+    // Characteristics shared by all Boars
     // (class variables).
 
-    // The age at which a Meerkat can start to breed.
+    // The age at which a Boar can start to breed.
     private static final int BREEDING_AGE = 5;
-    // The age to which a Meerkat can live.
+    // The age to which a Boar can live.
     private static final int MAX_AGE = 40;
-    // The likelihood of a Meerkat breeding.
-    private static final double BREEDING_PROBABILITY = 0.15;
+    // The likelihood of a Boar breeding.
+    private static final double BREEDING_PROBABILITY = 0.10;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
-    // number of steps an Impala can go before it has to eat again.
+    // number of steps a Boar can go before it has to eat again.
     private static final int FOOD_VALUE = 15;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
     // Individual characteristics (instance fields).
 
-    // The meerkat's age.
+    // The boar's age.
     private int age;
 
-    // The meerkat's food level, which is increased by eating animals.
+    // The boar's food level, which is increased by eating animals.
     private int foodLevel;
 
     /**
-     * Create a new rabbit. A Meerkat may be created with age
+     * Create a new boar. A Boar may be created with age
      * zero (a new born) or with a random age.
      *
-     * @param randomAge If true, the Meerkat will have a random age.
+     * @param randomAge If true, the Boar will have a random age.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Meerkat(boolean randomAge, Field field, Location location)
+    public Boar(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         age = 0;
@@ -51,19 +51,20 @@ public class Meerkat extends Animal {
     }
 
     /**
-     * This is what the Meerkat does most of the time - it runs
-     * around. Sometimes it will breed or die of old age.
-     * @param newMeerkats
-     * A list to return newly born Meerkats
-     * .
+     * This is what the Boar does most of the time - it runs
+     * around and eats. Sometimes it will breed or die of old age.
+     * @param newBoars A list to return newly born Boar
+     * @param timeOfDayString A string that represents the current time of day in the simulation.
+     * @param weather An object that contains information on the current weather in the simulation.
      */
-    public void act(List<Organism> newMeerkats, String timeOfDayString, Weather weather)
+    public void act(List<Organism> newBoars, String timeOfDayString, Weather weather)
     {
         incrementAge();
         incrementHunger();
 
+        //This IF statement represents a chance to die of dehydration in case of prolonged drought.
         if (isAlive()){
-            if (weather.getIsDrought() == true){
+            if (weather.getIsDrought()){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
                     if (randDieNum <= 7) setDead();
@@ -79,22 +80,29 @@ public class Meerkat extends Animal {
 
         if(isAlive()) {
 
-            giveBirth(newMeerkats);
+            giveBirth(newBoars);
 
-            if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
+            //the conditions in what weather Boar moves around are specified here
+            if (weather.getCurrentWeather().equals("Clear")
+                    || weather.getCurrentWeather().equals("Cloudy")
+                    || weather.getCurrentWeather().equals("Rain")
+                    || weather.getCurrentWeather().equals("Fog")  ) {
+                //the conditions at what time of day weather Boar moves around are specified here
+                if (timeOfDayString.equals("Day") || timeOfDayString.equals("Evening")){
 
-                Location newLocation = findFood();
-                if(newLocation == null) {
-                    // No food found - try to move to a free location.
-                    newLocation = getField().freeAdjacentLocation(getLocation());
-                }
-                // See if it was possible to move.
-                if(newLocation != null) {
-                    setLocation(newLocation);
-                }
-                else {
-                    // Overcrowding.
-                    setDead();
+                    Location newLocation = findFood();
+                    if(newLocation == null) {
+                        // No food found - try to move to a free location.
+                        newLocation = getField().freeAdjacentLocation(getLocation());
+                    }
+                    // See if it was possible to move.
+                    if(newLocation != null) {
+                        setLocation(newLocation);
+                    }
+                    else {
+                        // Overcrowding.
+                        setDead();
+                    }
                 }
             }
 
@@ -102,14 +110,15 @@ public class Meerkat extends Animal {
     }
 
     /**
-     * Look for grass adjacent to the current location.
+     * Look for plants adjacent to the current location.
      * Only the first grass patch is eaten.
-     * @return Where food was found, or null if it wasn't.
+     * @return where food was found, or null if it wasn't.
      */
     private Location findFood()
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
+
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
@@ -128,7 +137,7 @@ public class Meerkat extends Animal {
     }
 
     /**
-     * Make this Impala more hungry. This could result in the Leopard's death.
+     * Make this Boar more hungry. This could result in its' death.
      */
     private void incrementHunger()
     {
@@ -140,7 +149,7 @@ public class Meerkat extends Animal {
 
     /**
      * Increase the age.
-     * This could result in the rabbit's death.
+     * This could result in the boars' death.
      */
     private void incrementAge()
     {
@@ -151,52 +160,36 @@ public class Meerkat extends Animal {
     }
 
     /**
-     * Check whether or not this Meerkat is to give birth at this step.
+     * Check whether or not this Boar is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newMeerkats
-     * A list to return newly born Meerkats
+     * @param newBoars
+     * A list to return newly born boars
      * .
      */
-    private void giveBirth(List<Organism> newMeerkats
-    )
+    private void giveBirth(List<Organism> newBoars)
     {
-        // New Meerkats
+        // New boars
         // are born into adjacent locations.
         // Get a list of adjacent free locations.
-        /* Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Meerkat young = new Meerkat(false, field, loc);
-            newMeerkats
-                    .add(young);
-        }*/
 
         Field field = getField();
 
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         List<Location> full = field.getFullAdjacentLocations(getLocation());
 
-        /* Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Cheetah young = new Cheetah(false, field, loc);
-            newCheetahs.add(young);
-        }*/
+
 
         for (Location location: full) {
-            if ( field.getObjectAt(location) instanceof Meerkat
-                    && ((Meerkat) field.getObjectAt(location)).getGender() != getGender()){
+            if ( field.getObjectAt(location) instanceof Boar
+                    && ((Boar) field.getObjectAt(location)).getGender() != getGender()){
 
                 int births = breed();
 
                 for(int b = 0; b < births && free.size() > 0; b++) {
                     Location loc = free.remove(0);
-                    Meerkat young = new Meerkat(false, field, loc);
-                    newMeerkats.add(young);
+
+                    Boar young = new Boar(false, field, loc);
+                    newBoars.add(young);
                 }
                 break;
             }
@@ -219,8 +212,8 @@ public class Meerkat extends Animal {
     }
 
     /**
-     * A Meerkat can breed if it has reached the breeding age.
-     * @return true if the Meerkat can breed, false otherwise.
+     * A Boar can breed if it has reached the breeding age.
+     * @return true if the Boar can breed, false otherwise.
      */
     private boolean canBreed()
     {

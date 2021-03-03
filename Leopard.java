@@ -10,12 +10,12 @@ public class Leopard extends Animal {
     // The age to which a Leopard can live.
     private static final int MAX_AGE = 90;
     // The likelihood of a Leopard breeding.
-    private static final double BREEDING_PROBABILITY = 0.19;
+    private static final double BREEDING_PROBABILITY = 0.17;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single animal. In effect, this is the
     // number of steps a Leopard can go before it has to eat again.
-    private static final int FOOD_VALUE = 19;
+    private static final int FOOD_VALUE = 24;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -57,6 +57,8 @@ public class Leopard extends Animal {
      * or die of old age.
      * //@param field The field currently occupied.
      * @param newLeopards A list to return newly born Leopards.
+     * @param timeOfDayString A string that represents the current time of day in the simulation.
+     * @param weather An object that contains information on the current weather in the simulation.
      */
     public void act(List<Organism> newLeopards, String timeOfDayString, Weather weather)
     {
@@ -64,8 +66,9 @@ public class Leopard extends Animal {
         incrementAge();
         incrementHunger();
 
+        //This IF statement represents a chance to die of dehydration in case of prolonged drought.
         if (isAlive()){
-            if (weather.getIsDrought() == true){
+            if (weather.getIsDrought()){
                 int randDieNum = rand.nextInt(100);
                 if (weather.getDaysSinceRain() <= 6){
                     if (randDieNum <= 2) setDead();
@@ -84,23 +87,30 @@ public class Leopard extends Animal {
 
             giveBirth(newLeopards);
 
+            //the conditions in what weather Cheetah moves around are specified here
+            if (weather.getCurrentWeather().equals("Clear")
+                    || weather.getCurrentWeather().equals("Cloudy")
+                    || weather.getCurrentWeather().equals("Fog")){
 
-            if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
+                //the conditions at which time of day Cheetah moves around are specified here
+                if (timeOfDayString.equals("Night") || timeOfDayString.equals("Evening")){
 
-                // Move towards a source of food if found.
-                Location newLocation = findFood();
-                if(newLocation == null) {
-                    // No food found - try to move to a free location.
-                    newLocation = getField().freeAdjacentLocation(getLocation());
+                    // Move towards a source of food if found.
+                    Location newLocation = findFood();
+                    if(newLocation == null) {
+                        // No food found - try to move to a free location.
+                        newLocation = getField().freeAdjacentLocation(getLocation());
+                    }
+                    // See if it was possible to move.
+                    if(newLocation != null) {
+                        setLocation(newLocation);
+                    }
+                    else {
+                        // Overcrowding.
+                        setDead();
+                    }
                 }
-                // See if it was possible to move.
-                if(newLocation != null) {
-                    setLocation(newLocation);
-                }
-                else {
-                    // Overcrowding.
-                    setDead();
-                }
+
             }
 
 
@@ -130,8 +140,8 @@ public class Leopard extends Animal {
     }
 
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live rabbit is eaten.
+     * Look for animals adjacent to the current location.
+     * Only the first live animal of the right type is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -143,10 +153,10 @@ public class Leopard extends Animal {
             Location where = it.next();
             Object organism = field.getObjectAt(where);
 
-            if(organism instanceof Meerkat) {
-                Meerkat meerkat = (Meerkat) organism;
-                if(meerkat.isAlive()) {
-                    meerkat.setDead();
+            if(organism instanceof Boar) {
+                Boar boar = (Boar) organism;
+                if(boar.isAlive()) {
+                    boar.setDead();
                     foodLevel = FOOD_VALUE;
                     return where;
                 }
@@ -194,6 +204,7 @@ public class Leopard extends Animal {
 
                 for(int b = 0; b < births && free.size() > 0; b++) {
                     Location loc = free.remove(0);
+
                     Leopard young = new Leopard(false, field, loc);
                     newLeopards.add(young);
                 }
