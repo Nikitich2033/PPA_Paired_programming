@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Cheetah extends Organism {
+public class Cheetah extends Animal {
     // Characteristics shared by all Cheetaes (class variables).
 
     // The age at which a Cheeta can start to breed.
@@ -15,7 +15,7 @@ public class Cheetah extends Organism {
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a Cheetah can go before it has to eat again.
-    private static final int FOOD_VALUE = 22;
+    private static final int FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -25,7 +25,7 @@ public class Cheetah extends Organism {
     // The Cheeta's food level, which is increased by eating rabbits.
     private int foodLevel;
 
-    private Boolean gender;
+
     /**
      * Create a Cheetah. A Cheetah can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -46,7 +46,6 @@ public class Cheetah extends Organism {
             foodLevel = FOOD_VALUE;
         }
 
-        gender = rand.nextBoolean();
     }
 
     /**
@@ -184,7 +183,7 @@ public class Cheetah extends Organism {
 
         for (Location location: full) {
             if ( field.getObjectAt(location) instanceof Cheetah
-                    && ((Cheetah) field.getObjectAt(location)).gender != gender){
+                    && ((Cheetah) field.getObjectAt(location)).getGender() != getGender()){
 
                 for(int b = 0; b < births && free.size() > 0; b++) {
                     Location loc = free.remove(0);

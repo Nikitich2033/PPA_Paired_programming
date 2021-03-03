@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Rhino extends Organism {
+public class Rhino extends Animal {
     // Characteristics shared by all Rhinos (class variables).
 
     // The age at which a Rhino can start to breed.
@@ -22,8 +22,6 @@ public class Rhino extends Organism {
 
     // The Rhino's age.
     private int age;
-
-    private Boolean gender;
 
     // The Rhino's food level, which is increased by eating animals.
     private int foodLevel;
@@ -49,7 +47,6 @@ public class Rhino extends Organism {
             foodLevel = FOOD_VALUE;
         }
 
-        gender = rand.nextBoolean();
     }
 
     /**
@@ -169,7 +166,7 @@ public class Rhino extends Organism {
 
         for (Location location: full) {
             if ( field.getObjectAt(location) instanceof Rhino
-                    && ((Rhino) field.getObjectAt(location)).gender != gender){
+                    && ((Rhino) field.getObjectAt(location)).getGender() != getGender()){
 
                 int births = breed();
 

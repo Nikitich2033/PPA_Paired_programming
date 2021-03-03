@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Meerkat extends Organism {
+public class Meerkat extends Animal {
     // Characteristics shared by all Meerkats
     // (class variables).
 
@@ -27,7 +27,6 @@ public class Meerkat extends Organism {
     // The meerkat's food level, which is increased by eating animals.
     private int foodLevel;
 
-    private Boolean gender;
     /**
      * Create a new rabbit. A Meerkat may be created with age
      * zero (a new born) or with a random age.
@@ -49,7 +48,6 @@ public class Meerkat extends Organism {
             foodLevel = FOOD_VALUE;
         }
 
-        gender = rand.nextBoolean();
     }
 
     /**
@@ -191,7 +189,7 @@ public class Meerkat extends Organism {
 
         for (Location location: full) {
             if ( field.getObjectAt(location) instanceof Meerkat
-                    && ((Meerkat) field.getObjectAt(location)).gender != gender){
+                    && ((Meerkat) field.getObjectAt(location)).getGender() != getGender()){
 
                 int births = breed();
 

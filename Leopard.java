@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Leopard extends Organism {
+public class Leopard extends Animal {
     // Characteristics shared by all Leopards (class variables).
 
     // The age at which a Leopard can start to breed.
@@ -26,7 +26,7 @@ public class Leopard extends Organism {
     private int foodLevel;
 
     //Gender: False is Male, True is Female
-    private Boolean gender;
+    //private Boolean gender;
 
     /**
      * Create a Leopard. A Leopard can be created as a new born (age zero
@@ -48,7 +48,6 @@ public class Leopard extends Organism {
             foodLevel = FOOD_VALUE;
         }
 
-        gender = rand.nextBoolean();
 
     }
 
@@ -189,7 +188,7 @@ public class Leopard extends Organism {
 
         for (Location location: full) {
             if ( field.getObjectAt(location) instanceof Leopard
-                    && ((Leopard) field.getObjectAt(location)).gender != gender){
+                    && ((Leopard) field.getObjectAt(location)).getGender() != getGender()){
 
                 int births = breed();
 

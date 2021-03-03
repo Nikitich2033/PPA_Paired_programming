@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Impala extends Organism {
+public class Impala extends Animal {
     // Characteristics shared by all Impalas (class variables).
 
     // The age at which a Impala can start to breed.
@@ -26,7 +26,6 @@ public class Impala extends Organism {
     // The Impala's food level, which is increased by eating animals.
     private int foodLevel;
 
-    private Boolean gender;
     /**
      * Create a new impala. A Impala may be created with age
      * zero (a new born) or with a random age.
@@ -48,7 +47,6 @@ public class Impala extends Organism {
             foodLevel = FOOD_VALUE;
         }
 
-        gender = rand.nextBoolean();
 
     }
 
@@ -168,7 +166,7 @@ public class Impala extends Organism {
 
         for (Location location: full) {
             if ( field.getObjectAt(location) instanceof Impala
-                    && ((Impala) field.getObjectAt(location)).gender != gender){
+                    && ((Impala) field.getObjectAt(location)).getGender() != getGender()){
 
                 int births = breed();
 
