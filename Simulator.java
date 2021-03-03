@@ -123,7 +123,7 @@ public class Simulator
 
         // Provide space for newborn organisms.
         List<Organism> newOrganisms = new ArrayList<>();
-        // Let organisms.
+        // Let organisms act.
         for(Iterator<Organism> it = organisms.iterator(); it.hasNext(); ) {
             Organism organism = it.next();
             organism.act(newOrganisms, timeOfDay.getTimeOfDay(), weather);
